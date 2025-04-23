@@ -13,7 +13,7 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table(name = "menus")
+@Table(name = "menu")
 @NoArgsConstructor
 public class Menu extends BaseEntity {
 
@@ -27,7 +27,7 @@ public class Menu extends BaseEntity {
 
     @NotBlank
     @Column(nullable = false, length = 500)
-    private String explain;
+    private String description;
 
     @Column(nullable = false)
     private int price;

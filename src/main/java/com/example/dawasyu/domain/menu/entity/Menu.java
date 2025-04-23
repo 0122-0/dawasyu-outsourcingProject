@@ -1,9 +1,15 @@
 package com.example.dawasyu.domain.menu.entity;
 
 import com.example.dawasyu.common.baseEntity.BaseEntity;
+import com.example.dawasyu.domain.orderMenu.entity.OrderMenu;
+import com.example.dawasyu.domain.store.entity.Store;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -15,14 +21,27 @@ public class Menu extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Column(nullable = false, length = 50)
     private String name;
 
+    @NotBlank
+    @Column(nullable = false, length = 500)
     private String explain;
 
+    @NotBlank
     private int price;
 
+    @Enumerated(EnumType.STRING)
     private MenuStatus menuStatus;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
+
+    @OneToMany(mappedBy = "orderMenu", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderMenu> orderMenus = new ArrayList<>();
 
 
 }
+

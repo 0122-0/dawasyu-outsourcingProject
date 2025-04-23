@@ -40,7 +40,7 @@ public class Menu extends BaseEntity {
     private Store store;
 
     @OneToMany(mappedBy = "orderMenu", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Menu> menus = new ArrayList<>();
+    private List<OrderMenu> orderMenus = new ArrayList<>();
 
 
 }

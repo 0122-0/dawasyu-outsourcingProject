@@ -41,4 +41,9 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public Order (List<OrderMenu> orderMenus, User user) {
+        this.orderMenus = orderMenus;
+        this.user = user;
+    }
 }
+

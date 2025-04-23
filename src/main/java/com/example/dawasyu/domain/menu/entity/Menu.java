@@ -1,7 +1,10 @@
 package com.example.dawasyu.domain.menu.entity;
 
 import com.example.dawasyu.common.baseEntity.BaseEntity;
+import com.example.dawasyu.domain.orderMenu.entity.OrderMenu;
+import com.example.dawasyu.domain.store.entity.Store;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,14 +18,28 @@ public class Menu extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Column(nullable = false, length = 50)
     private String name;
 
+    @NotBlank
+    @Column(nullable = false, length = 500)
     private String explain;
 
+    @NotBlank
     private int price;
 
+    @Enumerated(EnumType.STRING)
     private MenuStatus menuStatus;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_menu_id", nullable = false)
+    private OrderMenu orderMenu;
 
 
 }
+

@@ -6,6 +6,7 @@ import com.example.dawasyu.domain.order.entity.Order;
 import com.example.dawasyu.domain.orderMenu.entity.OrderMenu;
 import com.example.dawasyu.domain.user.entity.User;
 import com.example.dawasyu.repository.OrderRepository;
+import com.example.dawasyu.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -24,21 +25,21 @@ public class OrderService {
 
     private final UserRepository userRepository;
 
-    //주문 샏성 x, 주문하기 o
-    public CreatedOrderResponseDto createOrder (List<OrderMenu> orderMenus, Long userId) {
-
-        User findUser = userRepository.findById(userId);
-
-        Order order = new Order(orderMenus, findUser);
-        Order createdOrder = orderRepository.save(order);
-
-        int totalPrice = orderMenus.stream()
-                .mapToInt(orderMenu -> orderMenu.getMenu().getPrice())
-                .sum();
-
-
-        return new CreatedOrderResponseDto(createdOrder.getOrderMenus(), totalPrice , createdOrder.getCreatedAt());
-    }
+//    //주문 샏성 x, 주문하기 o
+//    public CreatedOrderResponseDto createOrder (List<OrderMenu> orderMenus, Long userId) {
+//
+//        User findUser = userRepository.findById(userId);
+//
+//        Order order = new Order(orderMenus, findUser);
+//        Order createdOrder = orderRepository.save(order);
+//
+//        int totalPrice = orderMenus.stream()
+//                .mapToInt(orderMenu -> orderMenu.getMenu().getPrice())
+//                .sum();
+//
+//
+//        return new CreatedOrderResponseDto(createdOrder.getOrderMenus(), totalPrice , createdOrder.getCreatedAt());
+//    }
 
 //    public static String generateOrderNumber() {
 //       String timePart = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));

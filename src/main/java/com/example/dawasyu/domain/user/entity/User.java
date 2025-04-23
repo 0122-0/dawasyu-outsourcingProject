@@ -5,8 +5,10 @@ import com.example.dawasyu.domain.order.entity.Order;
 import com.example.dawasyu.domain.review.entity.Review;
 import com.example.dawasyu.domain.store.entity.Store;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 @Entity
 @Table(name = "user")
 @NoArgsConstructor
+@AllArgsConstructor
 public class User extends BaseEntity {
 
     @Id
@@ -58,4 +61,18 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
+    @Setter
+    @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
+    private boolean deleted = false;  // 삭제 상태
+
+    public User(String email, String password, String name, String number, String nickname, String roadAddress, String detailAddress, String userRole) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.number = number;
+        this.nickName = nickname;
+        this.roadAddress = roadAddress;
+        this.detailAddress = detailAddress;
+        this.userRole = UserRole.valueOf(userRole);
+    }
 }

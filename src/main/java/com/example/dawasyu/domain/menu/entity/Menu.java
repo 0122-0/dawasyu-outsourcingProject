@@ -30,7 +30,7 @@ public class Menu extends BaseEntity {
     private String description;
 
     @Column(nullable = false)
-    private int price;
+    private Long price;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -44,5 +44,12 @@ public class Menu extends BaseEntity {
     private List<OrderMenu> orderMenus = new ArrayList<>();
 
 
-}
+    public Menu(String menuName, String description, Long price, MenuStatus menuStatus, Store store) {
+        this.name = menuName;
+        this.description = description;
+        this.price = price;
+        this.menuStatus = menuStatus;
+        this.store = store;
 
+    }
+}

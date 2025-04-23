@@ -1,16 +1,15 @@
 package com.example.dawasyu.domain.order.entity;
 
 import com.example.dawasyu.common.baseEntity.BaseEntity;
-import com.example.dawasyu.domain.menu.entity.Menu;
-import com.example.dawasyu.domain.store.entity.Store;
+import com.example.dawasyu.domain.orderMenu.entity.OrderMenu;
 import com.example.dawasyu.domain.user.entity.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.swing.border.Border;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -24,11 +23,9 @@ public class Order extends BaseEntity {
     private Long id;
 
     //임의의 난수로 구성된 주문 번호 (YYYYMMDDxxxxxx)
-    @NotBlank
     @Column (nullable = false)
     private String orderNumber;
 
-    @NotBlank
     @Column
     private int totalPrice;
 
@@ -36,9 +33,8 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @ManyToMany
-    @JoinColumn(name = "orderMenu_id")
-    private OrderMenu menu;
+    @OneToMany (mappedBy = "order", cascade = CascadeType.ALL , orphanRemoval = true)
+    private List<OrderMenu> orderMenus = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")

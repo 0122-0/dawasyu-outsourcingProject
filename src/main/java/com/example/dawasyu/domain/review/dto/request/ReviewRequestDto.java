@@ -1,4 +1,4 @@
 package com.example.dawasyu.domain.review.dto.request;
 
-public class Request {
+public class ReviewRequestDto {
 }

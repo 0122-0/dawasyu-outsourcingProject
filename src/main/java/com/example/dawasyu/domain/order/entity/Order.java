@@ -13,7 +13,7 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @NoArgsConstructor
 public class Order extends BaseEntity {
 
@@ -26,11 +26,12 @@ public class Order extends BaseEntity {
     @Column (nullable = false)
     private String orderNumber;
 
-    @Column
+    @Column (nullable = false)
     private int totalPrice;
 
     //eunm을 사용한 주문상태 확인시켜주기
     @Enumerated(EnumType.STRING)
+    @Column (nullable = false)
     private OrderStatus orderStatus;
 
     @OneToMany (mappedBy = "order", cascade = CascadeType.ALL , orphanRemoval = true)

@@ -7,6 +7,8 @@ import com.example.dawasyu.domain.menu.entity.Menu;
 import com.example.dawasyu.domain.user.entity.User;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

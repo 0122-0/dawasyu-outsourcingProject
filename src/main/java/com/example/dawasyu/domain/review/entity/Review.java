@@ -1,12 +1,12 @@
 package com.example.dawasyu.domain.review.entity;
 
 import com.example.dawasyu.common.baseEntity.BaseEntity;
-import com.example.dawasyu.domain.store.entity.User;
+
 import com.example.dawasyu.domain.store.entity.Store;
 import com.example.dawasyu.domain.menu.entity.Menu;
+import com.example.dawasyu.domain.user.entity.User;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

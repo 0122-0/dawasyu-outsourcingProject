@@ -8,6 +8,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
 @Table(name = "menu")
@@ -36,9 +39,8 @@ public class Menu extends BaseEntity {
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_menu_id", nullable = false)
-    private OrderMenu orderMenu;
+    @OneToMany(mappedBy = "orderMenu", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Menu> menus = new ArrayList<>();
 
 
 }

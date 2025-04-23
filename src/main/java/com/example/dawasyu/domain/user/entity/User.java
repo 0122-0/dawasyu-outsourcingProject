@@ -57,7 +57,7 @@ public class User extends BaseEntity {
     private UserRole userRole;
 
     // 한 명의 유저는 여러 가게(사장님 입장)
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "owner")
     private List<Store> stores = new ArrayList<>();
 
     // 한 명의 유저는 여러 리뷰 작성

@@ -39,6 +39,8 @@ public class JwtProvider {
 
         String authorities = user.getUserRole().name();
 
+        System.out.println("=== JWT 생성 시 권한 === " + user.getUserRole());
+
         long now = (new Date()).getTime();
 
         Date accessTokenExpiration = new Date(now + 1000 * 60 * 30); // 현재시간 + 30분
@@ -70,9 +72,10 @@ public class JwtProvider {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
 
-        Collection<? extends  GrantedAuthority> authorities =
+        Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get("auth").toString().split(","))
-                .map(SimpleGrantedAuthority::new).toList();
+                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                        .toList();
 
         Long userId = Long.parseLong(claims.getSubject());
         return new UsernamePasswordAuthenticationToken(userId, "", authorities);

@@ -2,6 +2,7 @@ package com.example.dawasyu.domain.order.service;
 
 
 import com.example.dawasyu.domain.order.dto.response.CreatedOrderResponseDto;
+import com.example.dawasyu.domain.order.dto.response.OrderResponseDto;
 import com.example.dawasyu.domain.order.entity.Order;
 import com.example.dawasyu.domain.orderMenu.entity.OrderMenu;
 import com.example.dawasyu.domain.user.entity.User;
@@ -9,6 +10,7 @@ import com.example.dawasyu.repository.OrderRepository;
 import com.example.dawasyu.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,26 +27,34 @@ public class OrderService {
 
     private final UserRepository userRepository;
 
-//    //주문 샏성 x, 주문하기 o
-//    public CreatedOrderResponseDto createOrder (List<OrderMenu> orderMenus, Long userId) {
+
+    public CreatedOrderResponseDto createOrder (List<OrderMenu> orderMenus, Long userId) {
+
+        User findUser = userRepository.findUserById(userId);
+
+        Order order = new Order(orderMenus, findUser);
+
+        Long totalPrice = orderMenus.stream()
+                .mapToLong(orderMenu -> orderMenu.getMenu().getPrice() * orderMenu.getQuantity())
+                .sum();
+        Order createdOrder = orderRepository.save(order);
+
+        return new CreatedOrderResponseDto(generateOrderNumber(), createdOrder.getOrderMenus(), totalPrice , createdOrder.getCreatedAt());
+    }
+
+    public static String generateOrderNumber() {
+       String timePart = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMddHHmmss"));
+         int randomPart = new Random().nextInt(900000) + 100000;
+         return "DWS" + timePart + "-" + randomPart;
+    }
+
+//    public ResponseEntity<OrderResponseDto> findOrderById (Long orderId){
 //
-//        User findUser = userRepository.findById(userId);
+//      Order findOrder = orderRepository.findOrderById(orderId);
 //
-//        Order order = new Order(orderMenus, findUser);
-//        Order createdOrder = orderRepository.save(order);
-//
-//        int totalPrice = orderMenus.stream()
-//                .mapToInt(orderMenu -> orderMenu.getMenu().getPrice())
-//                .sum();
-//
-//
-//        return new CreatedOrderResponseDto(createdOrder.getOrderMenus(), totalPrice , createdOrder.getCreatedAt());
+//        return new OrderResponseDto();
 //    }
 
-//    public static String generateOrderNumber() {
-//       String timePart = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-//         int randomPart = new Random().nextInt(900000) + 100000; // 5자리 난수
-//         return "DWS" + timePart + "-" + randomPart;
-//    }
 
 }
+

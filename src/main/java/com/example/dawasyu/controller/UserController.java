@@ -63,13 +63,13 @@ public class UserController {
     public ResponseEntity<UserResponseDto> findUserById (@LoginUser User loginUser ) {
 
         UserResponseDto userResponseDto = userService.findUserById(loginUser.getId());
-
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
     // 비밀번호 수정
     @PutMapping("/password")
     public ResponseEntity<Void> updatePassword(@RequestBody UpdatePasswordRequestDto requestDto, @LoginUser User loginUser) {
+
         userService.updatePassword(loginUser.getId(), requestDto.getOldPassword(), requestDto.getNewPassword());
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -58,10 +58,10 @@ public class StoreController {
              "statusCode": 201,
              "message": "가게가 등록되었습니다.",
              "data": {
-             "storeId": 123,
-             "name": "호식이두마리",
-             ...
-             }
+                 "storeId": 123,
+                 "name": "호식이두마리",
+                 ...
+                 }
          }
         **/
 

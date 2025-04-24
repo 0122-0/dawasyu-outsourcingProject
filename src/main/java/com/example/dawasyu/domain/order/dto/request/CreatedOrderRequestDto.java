@@ -9,13 +9,10 @@ import java.util.List;
 public class CreatedOrderRequestDto {
 
 
-    private final Long userId;
-
     private final List<OrderMenu> orderMenus;
 
-    public CreatedOrderRequestDto(List<OrderMenu> orderMenus, Long userId) {
+    public CreatedOrderRequestDto(List<OrderMenu> orderMenus) {
         this.orderMenus = orderMenus;
-        this.userId = userId;
     }
 
 }

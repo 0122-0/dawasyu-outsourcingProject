@@ -1,6 +1,7 @@
 package com.example.dawasyu.domain.order.service;
 
 
+import com.example.dawasyu.domain.order.dto.request.CreatedOrderRequestDto;
 import com.example.dawasyu.domain.order.dto.response.CreatedOrderResponseDto;
 import com.example.dawasyu.domain.order.dto.response.OrderResponseDto;
 import com.example.dawasyu.domain.order.entity.Order;
@@ -8,6 +9,7 @@ import com.example.dawasyu.domain.orderMenu.entity.OrderMenu;
 import com.example.dawasyu.domain.user.entity.User;
 import com.example.dawasyu.repository.OrderRepository;
 import com.example.dawasyu.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -27,17 +29,20 @@ public class OrderService {
 
     private final UserRepository userRepository;
 
+    @Transactional
+    public CreatedOrderResponseDto createOrder (CreatedOrderRequestDto requestDto, User loginUser) {
 
-    public CreatedOrderResponseDto createOrder (List<OrderMenu> orderMenus, Long userId) {
+        Order order = new Order(requestDto.getOrderMenus(), loginUser);
 
-        User findUser = userRepository.findUserById(userId);
-
-        Order order = new Order(orderMenus, findUser);
-
-        Long totalPrice = orderMenus.stream()
+        Long totalPrice = requestDto.getOrderMenus().stream()
                 .mapToLong(orderMenu -> orderMenu.getMenu().getPrice() * orderMenu.getQuantity())
                 .sum();
         Order createdOrder = orderRepository.save(order);
+
+        // 오더 아이디랑 메뉴 아이디를 오더메뉴 객체에 넣기
+        for (OrderMenu orderMenu : createdOrder.getOrderMenus()) {
+
+        }
 
         return new CreatedOrderResponseDto(generateOrderNumber(), createdOrder.getOrderMenus(), totalPrice , createdOrder.getCreatedAt());
     }

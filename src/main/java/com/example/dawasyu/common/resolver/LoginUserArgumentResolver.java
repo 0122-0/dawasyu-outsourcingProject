@@ -38,7 +38,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
         Long userId = Long.parseLong(authentication.getPrincipal().toString());
 
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+        return userRepository.findUserByIdOrElseThrow(userId);
     }
 }

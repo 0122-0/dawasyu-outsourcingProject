@@ -20,7 +20,7 @@ public class StoreService {
 
     public ResponseStoreDTO createStore(RequestStoreDTO requestStoreDTO, Long ownerId) {
 
-        User owner = userRepository.findUserByIdOrElseThrow(ownerId);
+        User owner = userRepository.findUserByOnwerIdOrElseThrow(ownerId);
 
         Store storeToSave = requestStoreDTO.toEntity(owner);
 

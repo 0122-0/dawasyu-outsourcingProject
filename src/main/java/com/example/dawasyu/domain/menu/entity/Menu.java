@@ -44,12 +44,13 @@ public class Menu extends BaseEntity {
     private List<OrderMenu> orderMenus = new ArrayList<>();
 
 
+    //메뉴 생성 부분
     public Menu(String menuName, String description, Long price, MenuStatus menuStatus, Store store) {
         this.name = menuName;
         this.description = description;
         this.price = price;
         this.menuStatus = menuStatus;
         this.store = store;
-
     }
+
 }

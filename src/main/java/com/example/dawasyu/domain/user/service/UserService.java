@@ -2,12 +2,15 @@ package com.example.dawasyu.domain.user.service;
 
 import com.example.dawasyu.common.jwt.JwtProvider;
 import com.example.dawasyu.domain.user.dto.response.SignUpResponseDto;
+import com.example.dawasyu.domain.user.dto.response.UserResponseDto;
 import com.example.dawasyu.domain.user.entity.User;
 import com.example.dawasyu.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -46,5 +49,31 @@ public class UserService {
         user.setDeleted(true);
         userRepository.save(user);
     }
+
+    // 내 프로필 조회
+    public UserResponseDto findUserById (Long userId) {
+        User findUser = userRepository.findUserByIdOrElseThrow(userId);
+        return new UserResponseDto(findUser.getEmail(), findUser.getName(), findUser.getNumber(), findUser.getNickName(), findUser.getRoadAddress(), findUser.getDetailAddress(), findUser.getUserRole());
+    }
+
+    // 비밀번호 수정
+    public void updatePassword (Long userId, String oldPassword, String newPassword) {
+        User findUser = userRepository.findUserByIdOrElseThrow(userId);
+
+        // 1. 현재 비밀번호 일치하지 않음
+        if (!passwordEncoder.matches(oldPassword, findUser.getPassword())) {         // 비밀번호가 해시 처리돼 있다면 PasswordEncoder.matches()를 사용해야 한다.
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
+        }
+
+        // 2. 새 비밀번호가 기존과 같은 경우
+        if (passwordEncoder.matches(newPassword, findUser.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "현재 비밀번호와 다른 비밀번호를 입력해주세요.");
+        }
+        // 새로 입력받은 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        findUser.updatePassword(encodedPassword);
+    }
+
+
 
 }

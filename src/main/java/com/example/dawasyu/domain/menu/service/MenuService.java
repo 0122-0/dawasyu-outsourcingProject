@@ -57,4 +57,12 @@ public class MenuService {
                 .toList();
 
     }
+
+    public void deleteMenu(Long storeId, Long menuId) {
+        storeRepository.findById(storeId)
+                .orElseThrow(()->new RuntimeException("가게를 찾을 수 없습니다."));
+        Menu menu = menuRepository.findById(menuId)
+                .orElseThrow(() -> new RuntimeException("메뉴를 찾을 수 없습니다."));
+        menuRepository.delete(menu);
+    }
 }

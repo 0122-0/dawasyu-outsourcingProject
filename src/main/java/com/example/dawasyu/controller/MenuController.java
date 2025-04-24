@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/{storeId}/menus")
+@RequestMapping("/stores/{storeId}/menus")
 @RequiredArgsConstructor
 public class MenuController {
 
@@ -44,6 +44,16 @@ public class MenuController {
     @GetMapping
     public ResponseEntity<List<MenuResponse>> findAll(@PathVariable Long storeId){
         return ResponseEntity.ok(menuService.findAll(storeId));
+    }
+
+    // DELETE 메뉴 삭제
+    @DeleteMapping("/{menuId}")
+    public ResponseEntity<Void> deleteMenu(
+            @PathVariable Long storeId,
+            @PathVariable Long menuId
+    ){
+        menuService.deleteMenu(storeId, menuId);
+        return ResponseEntity.noContent().build();
     }
 
 

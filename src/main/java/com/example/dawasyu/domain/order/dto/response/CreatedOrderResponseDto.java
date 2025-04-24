@@ -10,7 +10,7 @@ import java.util.List;
 public class CreatedOrderResponseDto {
 
 
-    private final List<OrderMenu> orderMenus;
+//    private final List<OrderMenu> orderMenus;
 
     private final Long totalPrice;
 
@@ -18,10 +18,10 @@ public class CreatedOrderResponseDto {
 
     private final String orderNumber;
 
-    public CreatedOrderResponseDto(String orderNumber, List<OrderMenu> orderMenus, Long totalPrice, LocalDateTime createdAt) {
+    public CreatedOrderResponseDto(String orderNumber,  Long totalPrice, LocalDateTime createdAt) {
 
         this.orderNumber = orderNumber;
-        this.orderMenus = orderMenus;
+//        this.orderMenus = orderMenus;
         this.totalPrice = totalPrice;
         this.createdAt = createdAt;
 

@@ -45,6 +45,8 @@ public class Menu extends BaseEntity {
     private List<OrderMenu> orderMenus = new ArrayList<>();
 
 
+
+
     //메뉴 생성 부분
     public Menu(String name, String description, Long price, MenuStatus menuStatus, Store store) {
         this.name = name;
@@ -52,6 +54,7 @@ public class Menu extends BaseEntity {
         this.price = price;
         this.menuStatus = menuStatus;
         this.store = store;
+
     }
 
     public void update(String name, String description, Long price, MenuStatus menuStatus) {

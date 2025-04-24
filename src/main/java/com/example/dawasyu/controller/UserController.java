@@ -4,7 +4,9 @@ import com.example.dawasyu.common.annotation.LoginUser;
 import com.example.dawasyu.common.jwt.JwtProvider;
 import com.example.dawasyu.domain.user.dto.request.DeleteUserRequestDto;
 import com.example.dawasyu.domain.user.dto.request.SignUpRequestDto;
+import com.example.dawasyu.domain.user.dto.request.UpdatePasswordRequestDto;
 import com.example.dawasyu.domain.user.dto.response.SignUpResponseDto;
+import com.example.dawasyu.domain.user.dto.response.UserResponseDto;
 import com.example.dawasyu.domain.user.entity.User;
 import com.example.dawasyu.domain.user.service.UserService;
 import jakarta.validation.Valid;
@@ -54,5 +56,24 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+
+    // 나의 프로필 조회
+    @GetMapping("/me")
+    public ResponseEntity<UserResponseDto> findUserById (@LoginUser User loginUser ) {
+
+        UserResponseDto userResponseDto = userService.findUserById(loginUser.getId());
+        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+    }
+
+    // 비밀번호 수정
+    @PutMapping("/password")
+    public ResponseEntity<Void> updatePassword(@RequestBody UpdatePasswordRequestDto requestDto, @LoginUser User loginUser) {
+
+        userService.updatePassword(loginUser.getId(), requestDto.getOldPassword(), requestDto.getNewPassword());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
 }

@@ -53,6 +53,8 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(PUBLIC_ALL_PATTERNS).permitAll()
+                        .requestMatchers("/users/**").hasRole("USER") // 이거 추가
+                        .anyRequest().authenticated()
                 )
 
                 // JWT 인증을 위하여 직접 구현한 필터를 UsernamePasswordAuthenticationFilter 전에 실행

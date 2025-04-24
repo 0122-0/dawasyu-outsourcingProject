@@ -1,13 +1,12 @@
 package com.example.dawasyu.domain.menu.dto.request;
 
-
 import com.example.dawasyu.domain.menu.entity.MenuStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
-public class CreateMenuRequest {
+public class UpdateMenuRequest {
 
     @NotBlank
     private String name;
@@ -20,11 +19,4 @@ public class CreateMenuRequest {
 
     @NotNull
     private MenuStatus menuStatus;
-
 }
-
-
-
-
-
-

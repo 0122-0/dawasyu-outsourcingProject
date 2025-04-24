@@ -27,6 +27,4 @@ public class OrderMenu {
 
     private int quantity;
 
-    private Long totalPrice;
-
 }

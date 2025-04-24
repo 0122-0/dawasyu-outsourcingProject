@@ -20,8 +20,7 @@ public class StoreService {
 
     public ResponseStoreDTO createStore(RequestStoreDTO requestStoreDTO, Long ownerId) {
 
-        User owner = userRepository.findById(ownerId)
-                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다"));
+        User owner = userRepository.findUserByIdOrElseThrow(ownerId);
 
         Store storeToSave = requestStoreDTO.toEntity(owner);
 

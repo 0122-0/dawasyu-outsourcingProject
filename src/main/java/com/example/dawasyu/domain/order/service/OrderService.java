@@ -33,8 +33,8 @@ public class OrderService {
     @Transactional
     public CreatedOrderResponseDto createOrder (CreatedOrderRequestDto requestDto, User loginUser) {
 
-        Long totalPrice = requestDto.getOrderMenus().stream()
-                .mapToLong(orderMenu -> orderMenu.getMenu().getPrice() * orderMenu.getQuantity())
+        Long totalPrice = requestDto.getMenus().stream()
+                .mapToLong(Menus -> Menus.getPrice() * Menus.getQuantity())
                 .sum();
 
         Order order = new Order(totalPrice, generateOrderNumber(), loginUser);

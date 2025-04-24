@@ -7,6 +7,7 @@ import com.example.dawasyu.domain.order.dto.response.CreatedOrderResponseDto;
 import com.example.dawasyu.domain.order.dto.response.OrderResponseDto;
 import com.example.dawasyu.domain.order.service.OrderService;
 import com.example.dawasyu.domain.user.entity.User;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,9 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     private final OrderService orderService;
-
+    //@LoginUser user 값이 spring 안에 있는 유저로직이 토큰을 받아서 login 유저가 누구인지 알려준다.
     @PostMapping
-    public ResponseEntity<CreatedOrderResponseDto> createOrder (@RequestBody CreatedOrderRequestDto requestDto, @LoginUser User loginUser)
+    public ResponseEntity<CreatedOrderResponseDto> createOrder (@RequestBody @Valid CreatedOrderRequestDto requestDto, @LoginUser User loginUser)
     {
         CreatedOrderResponseDto responseDto = orderService.createOrder(requestDto, loginUser);
 

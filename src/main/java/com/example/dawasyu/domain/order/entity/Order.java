@@ -22,12 +22,12 @@ public class Order extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //임의의 난수로 구성된 주문 번호 (YYYYMMDDxxxxxx)
+    //임의의 난수로 구성된 주문 번호 (MMddHHmmss)
     @Column (nullable = false)
     private String orderNumber;
 
     @Column (nullable = false)
-    private int totalPrice;
+    private Long totalPrice;
 
     //eunm을 사용한 주문상태 확인시켜주기
     @Enumerated(EnumType.STRING)

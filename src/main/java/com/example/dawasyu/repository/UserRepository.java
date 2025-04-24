@@ -21,4 +21,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
         return findUserById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 id입니다."));
     }
 
+
 }

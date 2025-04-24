@@ -1,23 +1,24 @@
 package com.example.dawasyu.domain.store.entity;
 
 import com.example.dawasyu.common.baseEntity.BaseEntity;
+import com.example.dawasyu.domain.store.dto.request.RequestStoreDTO;
 import com.example.dawasyu.domain.storecategory.entity.StoreCategory;
 import com.example.dawasyu.domain.user.entity.User;
 import com.example.dawasyu.domain.menu.entity.Menu;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Entity
 @Table(name = "store")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA는 사용가능하지만, 외부에서 개발자가 직접 new로 못씀.
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class Store extends BaseEntity {
 
     @Id
@@ -48,7 +49,7 @@ public class Store extends BaseEntity {
     @Column(nullable = false)
     private LocalTime closeTime;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime deletedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -64,4 +65,5 @@ public class Store extends BaseEntity {
     public void closeStore() {
         this.deletedAt = LocalDateTime.now();
     }
+
 }

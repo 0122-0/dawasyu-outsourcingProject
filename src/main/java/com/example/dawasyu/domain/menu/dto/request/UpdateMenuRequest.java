@@ -9,7 +9,7 @@ import lombok.Getter;
 public class UpdateMenuRequest {
 
     @NotBlank
-    private String menuName;
+    private String name;
 
     @NotBlank
     private String description;

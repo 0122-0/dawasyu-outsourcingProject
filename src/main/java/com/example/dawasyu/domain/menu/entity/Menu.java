@@ -5,6 +5,7 @@ import com.example.dawasyu.domain.orderMenu.entity.OrderMenu;
 import com.example.dawasyu.domain.store.entity.Store;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -45,12 +46,18 @@ public class Menu extends BaseEntity {
 
 
     //메뉴 생성 부분
-    public Menu(String menuName, String description, Long price, MenuStatus menuStatus, Store store) {
-        this.name = menuName;
+    public Menu(String name, String description, Long price, MenuStatus menuStatus, Store store) {
+        this.name = name;
         this.description = description;
         this.price = price;
         this.menuStatus = menuStatus;
         this.store = store;
     }
 
+    public void update(String name, String description, Long price, MenuStatus menuStatus) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.menuStatus = menuStatus;
+    }
 }

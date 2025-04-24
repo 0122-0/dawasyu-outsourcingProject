@@ -10,7 +10,7 @@ import lombok.Getter;
 public class CreateMenuRequest {
 
     @NotBlank
-    private String menuName;
+    private String name;
 
     @NotBlank
     private String description;

@@ -1,6 +1,7 @@
 package com.example.dawasyu.domain.order.service;
 
 
+import com.example.dawasyu.domain.menu.entity.Menu;
 import com.example.dawasyu.domain.order.dto.request.CreatedOrderRequestDto;
 import com.example.dawasyu.domain.order.dto.response.CreatedOrderResponseDto;
 
@@ -8,6 +9,7 @@ import com.example.dawasyu.domain.order.entity.Order;
 import com.example.dawasyu.domain.order.entity.OrderStatus;
 import com.example.dawasyu.domain.orderMenu.entity.OrderMenu;
 import com.example.dawasyu.domain.user.entity.User;
+import com.example.dawasyu.repository.MenuRepository;
 import com.example.dawasyu.repository.OrderRepository;
 import com.example.dawasyu.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -30,11 +32,17 @@ public class OrderService {
 
     private final UserRepository userRepository;
 
+    private final MenuRepository menuRepository;
+
     @Transactional
     public CreatedOrderResponseDto createOrder (CreatedOrderRequestDto requestDto, User loginUser) {
 
-        Long totalPrice = requestDto.getMenus().stream()
-                .mapToLong(Menus -> Menus.getPrice() * Menus.getQuantity())
+         Long totalPrice = requestDto.getMenus().stream()
+                .mapToLong(menuDto -> {
+                    Menu menu = menuRepository.findById(menuDto.getMenuId())
+                            .orElseThrow(() -> new IllegalArgumentException("메뉴를 찾을 수 없습니다: " + menuDto.getMenuId()));
+                    return menu.getPrice() * menuDto.getQuantity();
+                })
                 .sum();
 
         Order order = new Order(totalPrice, generateOrderNumber(), loginUser);

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 public class OrderRequestDto {
 
     private Long menuId;
-    private Long price;
     private int quantity;
 
 }

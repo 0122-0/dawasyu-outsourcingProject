@@ -9,9 +9,6 @@ import java.util.List;
 @Getter
 public class CreatedOrderResponseDto {
 
-
-//    private final List<OrderMenu> orderMenus;
-
     private final Long totalPrice;
 
     private final LocalDateTime createdAt;
@@ -21,7 +18,6 @@ public class CreatedOrderResponseDto {
     public CreatedOrderResponseDto(String orderNumber,  Long totalPrice, LocalDateTime createdAt) {
 
         this.orderNumber = orderNumber;
-//        this.orderMenus = orderMenus;
         this.totalPrice = totalPrice;
         this.createdAt = createdAt;
 

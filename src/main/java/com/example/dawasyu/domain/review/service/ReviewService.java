@@ -1,8 +1,12 @@
 package com.example.dawasyu.domain.review.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.dawasyu.common.error.CustomException;
@@ -55,11 +59,10 @@ public class ReviewService {
 		// 리뷰 생성
 		Review reviewToSave = dto.toEntity(order, user, store, menu);
 
-		Review saved = reviewRepository.save(reviewToSave);
-
-		return ReviewResponseDto.toDto(saved);
+		return ReviewResponseDto.toDto(reviewToSave);
 	}
 
+	@Transactional
 	public void updateReview(ReviewUpdateRequestDto dto, Long reviewId, Long userId) {
 
 		Review findReview = reviewRepository.findByIdOrElseThrow(reviewId);
@@ -91,15 +94,13 @@ public class ReviewService {
 	}
 
 
-	// public ReviewResponseDto findReviewById(Long orderId, Long userId) {
-	//
-	// 	User user = userRepository.findUserByIdOrElseThrow(userId);
-	// 	Order order = orderRepository.findOrderByIdOrElseThrow(orderId);
-	// 	Menu menu = menuRepository.findMenuByIdOrElseThrow(userId);
-	// 	Store store = storeRepository.findStoreByIdOrElseThrow(userId);
-	//
-	// 	Review findReview = reviewRepository.findByIdOrElseThrow(userId);
-	//
-	// 	return null;
-	// }
+	public List<ReviewResponseDto> findAllReviewsById(Long userId) {
+
+		// User user = userRepository.findUserByIdOrElseThrow(userId);
+		List<Review> reviews = reviewRepository.findAllByUserId(userId);
+
+		return reviews.stream()
+			.map(ReviewResponseDto::toDto)
+			.collect(Collectors.toList());
+	}
 }

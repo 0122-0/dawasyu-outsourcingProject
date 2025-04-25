@@ -1,6 +1,9 @@
 package com.example.dawasyu.domain.review.service;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.dawasyu.common.error.CustomException;
 import com.example.dawasyu.common.error.ErrorCode;
@@ -29,6 +32,7 @@ public class ReviewService {
 	private final UserRepository userRepository;
 	private final MenuRepository menuRepository;
 	private final StoreRepository storeRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	public ReviewResponseDto saveReview(ReviewRequestDto dto, Long orderId, Long userId) {
 
@@ -56,18 +60,6 @@ public class ReviewService {
 		return ReviewResponseDto.toDto(saved);
 	}
 
-	// public ReviewResponseDto findReviewById(Long orderId, Long userId) {
-	//
-	// 	User user = userRepository.findUserByIdOrElseThrow(userId);
-	// 	Order order = orderRepository.findOrderByIdOrElseThrow(orderId);
-	// 	Menu menu = menuRepository.findMenuByIdOrElseThrow(userId);
-	// 	Store store = storeRepository.findStoreByIdOrElseThrow(userId);
-	//
-	// 	Review findReview = reviewRepository.findByIdOrElseThrow(userId);
-	//
-	// 	return null;
-	// }
-
 	public void updateReview(ReviewUpdateRequestDto dto, Long reviewId, Long userId) {
 
 		Review findReview = reviewRepository.findByIdOrElseThrow(reviewId);
@@ -80,4 +72,34 @@ public class ReviewService {
 		findReview.updateReview(dto.getContent(), dto.getRating());
 
 	}
+
+	public void delete(String password, Long reviewId, Long userId) {
+
+		Review findReview = reviewRepository.findByIdOrElseThrow(reviewId);
+
+		// 비밀번호 검증
+		if (!passwordEncoder.matches(password, findReview.getUser().getPassword())) {         // 비밀번호가 해시 처리돼 있다면 PasswordEncoder.matches()를 사용해야 한다.
+			throw new CustomException(ErrorCode.PASSWORD_NOT_MATCHED);
+		}
+
+		// 내 리뷰인지 확인
+		if (!findReview.getUser().getId().equals(userId)) {
+			throw new CustomException(ErrorCode.USER_NOT_MATCHED);
+		}
+
+		reviewRepository.delete(findReview);
+	}
+
+
+	// public ReviewResponseDto findReviewById(Long orderId, Long userId) {
+	//
+	// 	User user = userRepository.findUserByIdOrElseThrow(userId);
+	// 	Order order = orderRepository.findOrderByIdOrElseThrow(orderId);
+	// 	Menu menu = menuRepository.findMenuByIdOrElseThrow(userId);
+	// 	Store store = storeRepository.findStoreByIdOrElseThrow(userId);
+	//
+	// 	Review findReview = reviewRepository.findByIdOrElseThrow(userId);
+	//
+	// 	return null;
+	// }
 }

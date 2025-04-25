@@ -75,6 +75,14 @@ public class OrderService {
       return new OrderResponseDto(findOrderById);
     }
 
+    public List<OrderResponseDto> findAll (){
+
+        return orderRepository.findAll()
+                .stream()
+                .map(OrderResponseDto::findAll)
+                .toList();
+    }
+
 
     @Transactional
     public OrderStatusResponseDto changedStatus (Long orderId,OrderStatus oldOrderStatus, OrderStatus newOrderStatus){

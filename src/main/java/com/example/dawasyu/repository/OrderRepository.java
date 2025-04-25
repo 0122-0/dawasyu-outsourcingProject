@@ -13,6 +13,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     Order findOrderById (Long orderId);
 
+
     default Order findOrderByIdOrElseThrow(Long orderId){
         return findById(orderId).orElseThrow(()->new CustomException(ErrorCode.ORDER_NOT_FOUND));
     }

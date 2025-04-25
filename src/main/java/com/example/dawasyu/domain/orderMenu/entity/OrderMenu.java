@@ -25,9 +25,6 @@ public class OrderMenu {
 
     private int quantity;
 
-    public OrderMenu() {
-    }
-
     public void matchOrder(Order order) {
         this.order = order;
     }

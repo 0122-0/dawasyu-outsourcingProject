@@ -61,7 +61,7 @@ public class OrderService {
 
         Order createdOrder = orderRepository.save(order);
 
-        return new CreatedOrderResponseDto(createdOrder.getOrderNumber(), createdOrder.getOrderMenus(), createdOrder.getTotalPrice(), createdOrder.getCreatedAt());
+        return new CreatedOrderResponseDto(createdOrder);
     }
 
     public static String generateOrderNumber() {

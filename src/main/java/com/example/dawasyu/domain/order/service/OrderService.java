@@ -21,7 +21,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,17 +47,21 @@ public class OrderService {
                 })
                 .sum();
 
-        Order order = new Order(totalPrice, generateOrderNumber(), loginUser);
-        //gpt의 도움을 받아서 잘모름
+        List<OrderMenu> orderMenuList = requestDto.getMenus().stream().map(menuDto ->{
+                Menu menu = menuRepository.findMenuByIdOrElseThrow(menuDto.getMenuId());
+            // OrderMenu 객체를 생성하고, 수량 설정
+            OrderMenu orderMenu = new OrderMenu();
+            orderMenu.setMenu(menu); // Menu 객체 설정
+            orderMenu.setQuantity(menuDto.getQuantity()); // 수량 설정
+
+            return orderMenu;
+        }).collect(Collectors.toList());
+
+        Order order = new Order(totalPrice, generateOrderNumber(), loginUser, orderMenuList);
 
         Order createdOrder = orderRepository.save(order);
 
-//        // 오더 아이디랑 메뉴 아이디를 오더메뉴 객체에 넣기
-//        for (OrderMenu orderMenu : requestDto.getOrderMenus()) {
-//
-//        }
-
-        return new CreatedOrderResponseDto(createdOrder.getOrderNumber(), createdOrder.getTotalPrice(), createdOrder.getCreatedAt());
+        return new CreatedOrderResponseDto(createdOrder.getOrderNumber(), createdOrder.getOrderMenus(), createdOrder.getTotalPrice(), createdOrder.getCreatedAt());
     }
 
     public static String generateOrderNumber() {

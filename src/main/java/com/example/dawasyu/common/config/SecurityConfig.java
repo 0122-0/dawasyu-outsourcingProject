@@ -53,7 +53,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(PUBLIC_ALL_PATTERNS).permitAll()
-                        .requestMatchers("/users/**").hasRole("USER") // 이거 추가
+                        .requestMatchers("/users/**").hasAnyRole("USER","OWNER") // 이거 추가
                         .anyRequest().authenticated()
                 )
 
@@ -83,6 +83,5 @@ public class SecurityConfig {
                 writer.write("{\"error\": \"Forbidden: 접근 권한이 없습니다.\"}");
                 writer.flush();
             };
-
 
 }

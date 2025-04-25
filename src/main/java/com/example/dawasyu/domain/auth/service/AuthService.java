@@ -26,6 +26,10 @@ public class AuthService {
     public LoginResponseDto login (String email, String password) {
         User user = userRepository.findByEmail(email).orElseThrow(()-> new RuntimeException("사용자를 찾을 수 없습니다."));
 
+        if (user.isDeleted()) {
+            throw new RuntimeException("탈퇴한 계정입니다.");
+        }
+
         if(!passwordEncoder.matches(password, user.getPassword())){
             throw new RuntimeException("비밀번호가 일치하지 않습니다");
         }

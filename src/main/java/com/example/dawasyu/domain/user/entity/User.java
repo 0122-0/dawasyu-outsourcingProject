@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Entity
@@ -27,26 +28,26 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String number;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = true, unique = true)
     private String nickName;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String roadAddress;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String detailAddress;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private UserRole userRole;
 
     // 한 명의 유저는 여러 가게(사장님 입장)
@@ -77,4 +78,16 @@ public class User extends BaseEntity {
     }
 
     public void updatePassword(String password) { this.password = password; }
+
+    public void withdraw() {
+        this.deleted = true;
+        this.password = null;
+        this.name = null;
+        this.number = null;
+        this.nickName = "deleted_" + UUID.randomUUID().toString().substring(0, 8);
+        this.roadAddress = null;
+        this.detailAddress = null;
+        this.userRole = null;
+    }
+
 }

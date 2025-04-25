@@ -38,6 +38,12 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
         Long userId = Long.parseLong(authentication.getPrincipal().toString());
 
-        return userRepository.findUserByIdOrElseThrow(userId);
+        User user = userRepository.findUserByIdOrElseThrow(userId);
+
+        if (user.isDeleted()) {
+            throw new RuntimeException("탈퇴한 유저입니다.");
+        }
+
+        return user;
     }
 }

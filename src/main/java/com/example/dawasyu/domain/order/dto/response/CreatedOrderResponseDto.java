@@ -9,19 +9,19 @@ import java.util.List;
 @Getter
 public class CreatedOrderResponseDto {
 
+    private final String orderNumber;
+
+    private final List<OrderMenu> orderMenus;
+
     private final Long totalPrice;
 
     private final LocalDateTime createdAt;
 
-    private final String orderNumber;
 
-    public CreatedOrderResponseDto(String orderNumber,  Long totalPrice, LocalDateTime createdAt) {
-
+    public CreatedOrderResponseDto(String orderNumber, List<OrderMenu> orderMenus, Long totalPrice, LocalDateTime createdAt) {
         this.orderNumber = orderNumber;
+        this.orderMenus = orderMenus;
         this.totalPrice = totalPrice;
         this.createdAt = createdAt;
-
     }
-
-
 }

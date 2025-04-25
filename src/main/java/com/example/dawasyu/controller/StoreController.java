@@ -44,7 +44,7 @@ public class StoreController {
     public ResponseEntity<ResponseMessage<ResponseStoreDTO>> createStore(@Valid @RequestBody RequestStoreDTO requestStoreDTO,
                                                                          @LoginUser User loginUser){
 
-        ResponseStoreDTO responseDTO = storeService.createStore(requestStoreDTO, loginUser.getId());
+        ResponseStoreDTO responseDTO = storeService.createStore(requestStoreDTO, loginUser);
 
         ResponseMessage<ResponseStoreDTO> responseMessage = ResponseMessage.<ResponseStoreDTO>builder()
                 .statusCode(HttpStatus.CREATED.value())

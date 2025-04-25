@@ -17,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/orders")
 @RequiredArgsConstructor
@@ -39,6 +41,14 @@ public class OrderController {
        OrderResponseDto findedById = orderService.findOrderById(orderId);
 
         return new ResponseEntity<>(findedById, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<OrderResponseDto>> findAll (){
+
+        List<OrderResponseDto> findAll = orderService.findAll();
+
+        return new ResponseEntity<>(findAll, HttpStatus.OK);
     }
 
     @PatchMapping("/{orderId}/status")

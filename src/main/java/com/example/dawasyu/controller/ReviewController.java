@@ -1,5 +1,7 @@
 package com.example.dawasyu.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +34,7 @@ public class ReviewController {
 
 	private final ReviewService reviewService;
 
+	// 리뷰 생성
 	@PostMapping("/orders/{orderId}/reviews")
 	public ResponseEntity<ResponseMessage<ReviewResponseDto>> saveReview(
 		@Valid @RequestBody ReviewRequestDto dto,
@@ -49,6 +52,7 @@ public class ReviewController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage);
 	}
 
+	// 리뷰 수정
 	@PatchMapping("/reviews/{reviewId}")
 	public ResponseEntity<ResponseMessage<String>> updateReview(
 		@Valid @RequestBody ReviewUpdateRequestDto dto,
@@ -66,6 +70,7 @@ public class ReviewController {
 		return ResponseEntity.ok(responseMessage);
 	}
 
+	// 리뷰 삭제
 	@DeleteMapping("/reviews/{reviewId}")
 	public ResponseEntity<ResponseMessage<String>> deleteReview(
 		@Valid @RequestBody ReviewDeleteRequestDto dto,
@@ -83,16 +88,21 @@ public class ReviewController {
 		return ResponseEntity.ok(responseMessage);
 	}
 
-	// @GetMapping("/orders/{orderId}/reviews")
-	// public ResponseEntity<ResponseMessage<ReviewResponseDto>> findReviewById(@PathVariable Long orderId, @LoginUser User loginUser) {
-	// 	ReviewResponseDto responseDto = reviewService.findReviewById(orderId, loginUser.getId());
-	//
-	// 	ResponseMessage<ReviewResponseDto> responseMessage = ResponseMessage.<ReviewResponseDto>builder()
-	// 		.statusCode(HttpStatus.CREATED.value())
-	// 		.message(responseDto.getId() + "가 작성한 리뷰입니다.")
-	// 		.data(responseDto)
-	// 		.build();
-	//
-	// 	return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage);
-	// }
+	// 내가 작성한 리뷰 전체 조회
+	@GetMapping("/users/me/reviews")
+	public ResponseEntity<ResponseMessage<List<ReviewResponseDto>>> findAllReviewsById(@LoginUser User loginUser) {
+		List<ReviewResponseDto> responseDtoList = reviewService.findAllReviewsById(loginUser.getId());
+
+		String message = responseDtoList.isEmpty()
+			? "작성한 리뷰가 없습니다."
+			: loginUser.getNickName() + "님이 작성한 리뷰는 총 " + responseDtoList.size() + "개 입니다.";
+
+		ResponseMessage<List<ReviewResponseDto>> responseMessage = ResponseMessage.<List<ReviewResponseDto>>builder()
+			.statusCode(HttpStatus.OK.value())
+			.message(message)
+			.data(responseDtoList)
+			.build();
+
+		return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
+	}
 }

@@ -29,4 +29,7 @@ public class OrderResponseDto {
 
     }
 
+    public static OrderResponseDto findAll(Order order){
+        return new OrderResponseDto(order);
+    }
 }

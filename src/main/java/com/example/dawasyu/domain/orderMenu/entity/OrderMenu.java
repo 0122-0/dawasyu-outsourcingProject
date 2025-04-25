@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Table(name = "order_menu",
 uniqueConstraints = @UniqueConstraint(columnNames = {"order_id","menu_id"}))
 public class OrderMenu {
@@ -28,5 +28,13 @@ public class OrderMenu {
     public void matchOrder(Order order) {
         this.order = order;
     }
+
+    public OrderMenu(Menu menu,int quantity) {
+        this.menu = menu;
+//        this.order = order;
+        this.quantity = quantity;
+    }
+
+
 
 }

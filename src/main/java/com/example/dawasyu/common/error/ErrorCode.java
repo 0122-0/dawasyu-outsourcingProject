@@ -35,8 +35,8 @@ public enum ErrorCode {
     // Review
     REVIEW_NOT_FOUND(404,"Not Found","R001","Can Not Found Review"),
     NOT_ORDER_OWNER(400, "Bad Request", "R002", "You are not the owner of this order."),
-    ALREADY_REVIEWED(400, "Bad Request", "R003", "A review has already been written for this order.");
-
+    ALREADY_REVIEWED(400, "Bad Request", "R003", "A review has already been written for this order."),
+    USER_NOT_MATCHED(400, "Bad Request", "R004", "The user is not authorized to modify this review");
 
     // Category
 

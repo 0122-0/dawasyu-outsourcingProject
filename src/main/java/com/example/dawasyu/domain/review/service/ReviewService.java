@@ -7,6 +7,7 @@ import com.example.dawasyu.common.error.ErrorCode;
 import com.example.dawasyu.domain.menu.entity.Menu;
 import com.example.dawasyu.domain.order.entity.Order;
 import com.example.dawasyu.domain.review.dto.request.ReviewRequestDto;
+import com.example.dawasyu.domain.review.dto.request.ReviewUpdateRequestDto;
 import com.example.dawasyu.domain.review.dto.response.ReviewResponseDto;
 import com.example.dawasyu.domain.review.entity.Review;
 import com.example.dawasyu.domain.store.entity.Store;
@@ -53,5 +54,30 @@ public class ReviewService {
 		Review saved = reviewRepository.save(reviewToSave);
 
 		return ReviewResponseDto.toDto(saved);
+	}
+
+	// public ReviewResponseDto findReviewById(Long orderId, Long userId) {
+	//
+	// 	User user = userRepository.findUserByIdOrElseThrow(userId);
+	// 	Order order = orderRepository.findOrderByIdOrElseThrow(orderId);
+	// 	Menu menu = menuRepository.findMenuByIdOrElseThrow(userId);
+	// 	Store store = storeRepository.findStoreByIdOrElseThrow(userId);
+	//
+	// 	Review findReview = reviewRepository.findByIdOrElseThrow(userId);
+	//
+	// 	return null;
+	// }
+
+	public void updateReview(ReviewUpdateRequestDto dto, Long reviewId, Long userId) {
+
+		Review findReview = reviewRepository.findByIdOrElseThrow(reviewId);
+
+		// 유저 본인 확인
+		if (!findReview.getUser().getId().equals(userId)) {
+			throw new CustomException(ErrorCode.USER_NOT_MATCHED);
+		}
+
+		findReview.updateReview(dto.getContent(), dto.getRating());
+
 	}
 }

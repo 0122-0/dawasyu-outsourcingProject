@@ -18,9 +18,15 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
 
-    public ResponseStoreDTO createStore(RequestStoreDTO requestStoreDTO, Long ownerId) {
+    public ResponseStoreDTO createStore(RequestStoreDTO requestStoreDTO, User loginUser) {
 
-        User owner = userRepository.findUserByOnwerIdOrElseThrow(ownerId);
+        User owner = userRepository.findUserByOnwerIdOrElseThrow(loginUser.getId());
+
+        int storeCount = storeRepository.countByOwner(loginUser);
+
+        if(storeCount >= 3) {
+            throw new RuntimeException("가게는 3개까지만 만들 수 있습니다.");
+        }
 
         Store storeToSave = requestStoreDTO.toEntity(owner);
 

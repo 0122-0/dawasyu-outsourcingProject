@@ -41,8 +41,11 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Order (Long totalPrice,String orderNumber,User user) {
-
+    public Order (Long totalPrice,String orderNumber,User user, List<OrderMenu> orderMenus) {
+        for(OrderMenu orderMenu : orderMenus){
+            orderMenu.matchOrder(this);
+        }
+        this.orderMenus.addAll(orderMenus);
         this.totalPrice = totalPrice;
         this.user = user;
         this.orderNumber = orderNumber;

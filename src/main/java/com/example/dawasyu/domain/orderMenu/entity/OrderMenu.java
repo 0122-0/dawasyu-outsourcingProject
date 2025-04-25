@@ -3,13 +3,11 @@ package com.example.dawasyu.domain.orderMenu.entity;
 import com.example.dawasyu.domain.menu.entity.Menu;
 import com.example.dawasyu.domain.order.entity.Order;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter @Setter
 @Table(name = "order_menu",
 uniqueConstraints = @UniqueConstraint(columnNames = {"order_id","menu_id"}))
 public class OrderMenu {
@@ -26,5 +24,12 @@ public class OrderMenu {
     private Menu menu;
 
     private int quantity;
+
+    public OrderMenu() {
+    }
+
+    public void matchOrder(Order order) {
+        this.order = order;
+    }
 
 }

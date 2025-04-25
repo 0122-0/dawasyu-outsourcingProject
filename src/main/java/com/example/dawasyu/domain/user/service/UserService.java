@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -20,11 +22,29 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private JwtProvider jwtProvider;
 
     // 회원가입
-    public SignUpResponseDto signUp (String email, String password, String name, String number, String nickname, String roadAddress, String detailAddress, String userRole) {
+    public SignUpResponseDto signUp (String email,
+                                     String password,
+                                     String name,
+                                     String number,
+                                     String nickname,
+                                     String roadAddress,
+                                     String detailAddress,
+                                     String userRole) {
+
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (user.isDeleted()) {
+                throw new RuntimeException("해당 이메일은 탈퇴된 계정입니다. 재가입이 불가능합니다.");
+            } else {
+                throw new RuntimeException("이미 존재하는 이메일입니다.");
+            }
+        }
+
+        // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(password);
 
         User user = new User(email, encodedPassword, name, number, nickname, roadAddress, detailAddress, userRole);
@@ -46,7 +66,8 @@ public class UserService {
             throw new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
 
-        user.setDeleted(true);
+        user.withdraw();
+
         userRepository.save(user);
     }
 
@@ -73,7 +94,6 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(newPassword);
         findUser.updatePassword(encodedPassword);
     }
-
 
 
 }

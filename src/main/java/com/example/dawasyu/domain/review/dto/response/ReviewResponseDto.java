@@ -9,7 +9,7 @@ import com.example.dawasyu.domain.menu.entity.Menu;
 import com.example.dawasyu.domain.order.entity.Order;
 import com.example.dawasyu.domain.orderMenu.dto.response.OrderMenuResponseDto;
 import com.example.dawasyu.domain.review.entity.Review;
-import com.example.dawasyu.domain.store.dto.response.ResponseStoreDTO;
+import com.example.dawasyu.domain.store.dto.response.StoreResponseDTO;
 import com.example.dawasyu.domain.store.entity.Store;
 
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class ReviewResponseDto {
 	private Long id;
 	private String content;
 	private int rating;
-	private ResponseStoreDTO store;
+	private StoreResponseDTO store;
 	private List<OrderMenuResponseDto> menus;
 
 	public static ReviewResponseDto toDto(Review review) {
@@ -33,7 +33,7 @@ public class ReviewResponseDto {
 
 		return ReviewResponseDto.builder()
 			.id(review.getId())
-			.store(ResponseStoreDTO.toDto(review.getStore()))
+			.store(StoreResponseDTO.toDto(review.getStore()))
 			.menus(menus)
 			.content(review.getContent())
 			.rating(review.getRating())

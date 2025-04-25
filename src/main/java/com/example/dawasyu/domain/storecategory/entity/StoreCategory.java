@@ -4,15 +4,15 @@ import com.example.dawasyu.common.baseEntity.BaseEntity;
 import com.example.dawasyu.domain.category.entity.Category;
 import com.example.dawasyu.domain.store.entity.Store;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Entity
 @Table(name = "store_category",
         uniqueConstraints = @UniqueConstraint(columnNames = {"store_id", "category_id"}))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class StoreCategory {
 
     @Id
@@ -26,5 +26,12 @@ public class StoreCategory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+    public static StoreCategory toEntity(Store store, Category category) {
+        return StoreCategory.builder()
+                .store(store)
+                .category(category)
+                .build();
+    }
 
 }

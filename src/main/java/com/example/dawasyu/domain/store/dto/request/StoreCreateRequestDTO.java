@@ -10,7 +10,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
-public class RequestStoreDTO {
+public class StoreCreateRequestDTO {
     private String name;
     private String number;
     private String bizNo;
@@ -19,7 +19,7 @@ public class RequestStoreDTO {
     private int minPrice;
     private String openTime;
     private String closeTime;
-    private List<String> categories;
+    private List<Long> categories;
 
     public Store toEntity(User owner) {
         return Store.builder()

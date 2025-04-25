@@ -4,8 +4,8 @@ import com.example.dawasyu.common.reponseMessege.ResponseMessage;
 import com.example.dawasyu.domain.user.entity.User;
 
 import com.example.dawasyu.common.annotation.LoginUser;
-import com.example.dawasyu.domain.store.dto.request.RequestStoreDTO;
-import com.example.dawasyu.domain.store.dto.response.ResponseStoreDTO;
+import com.example.dawasyu.domain.store.dto.request.StoreCreateRequestDTO;
+import com.example.dawasyu.domain.store.dto.response.StoreResponseDTO;
 import com.example.dawasyu.domain.store.service.StoreService;
 
 import jakarta.validation.Valid;
@@ -37,33 +37,49 @@ public class StoreController {
      "minPrice": 10000,
      "openTime": "10:00",
      "closeTime": "22:00",
-     "categories": ["분식", "야식"]
+     "categories": [ 1, 2 ]
      }
      **/
     @PostMapping
-    public ResponseEntity<ResponseMessage<ResponseStoreDTO>> createStore(@Valid @RequestBody RequestStoreDTO requestStoreDTO,
-                                                                         @LoginUser User loginUser){
+    public ResponseEntity<ResponseMessage<StoreResponseDTO>> createStore(@Valid @RequestBody StoreCreateRequestDTO reqDTO,
+                                                                         @LoginUser User user){
 
-        ResponseStoreDTO responseDTO = storeService.createStore(requestStoreDTO, loginUser);
+        StoreResponseDTO resDTO = storeService.createStore(reqDTO, user);
 
-        ResponseMessage<ResponseStoreDTO> responseMessage = ResponseMessage.<ResponseStoreDTO>builder()
+        ResponseMessage<StoreResponseDTO> responseMessage = ResponseMessage.<StoreResponseDTO>builder()
                 .statusCode(HttpStatus.CREATED.value())
                 .message("가게가 등록되었습니다.")
-                .data(responseDTO)
+                .data(resDTO)
                 .build();
         /**
          [responseMessage]
 
          {
-             "statusCode": 201,
-             "message": "가게가 등록되었습니다.",
-             "data": {
-                 "storeId": 123,
-                 "name": "호식이두마리",
-                 ...
-                 }
+         "statusCode": 201,
+         "message": "가게가 등록되었습니다.",
+         "data": {
+         "id": 6,
+         "name": "호식이두마리",
+         "number": "010-1234-5678",
+         "bizNo": "123-45-67890",
+         "roadAddress": "서울시 성동구 왕십리로 222",
+         "detailAddress": "상가 101호",
+         "minPrice": 10000,
+         "openTime": "10:00:00",
+         "closeTime": "22:00:00",
+         "categories": [
+         {
+         "id": 1,
+         "name": "야식"
+         },
+         {
+         "id": 2,
+         "name": "치킨"
          }
-        **/
+         ]
+         }
+         }
+         **/
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage);
     }

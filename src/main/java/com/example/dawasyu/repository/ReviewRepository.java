@@ -7,8 +7,8 @@ import com.example.dawasyu.common.error.ErrorCode;
 import com.example.dawasyu.domain.review.entity.Review;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-	default Review findByIdOrElseThrow(Long id){
-		return findById(id).orElseThrow(()->new CustomException(ErrorCode.REVIEW_NOT_FOUND));
+	default Review findByIdOrElseThrow(Long reviewId){
+		return findById(reviewId).orElseThrow(()->new CustomException(ErrorCode.REVIEW_NOT_FOUND));
 	}
 
 	boolean existsByOrderId(Long orderId);

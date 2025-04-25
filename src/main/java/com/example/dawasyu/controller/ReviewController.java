@@ -28,6 +28,7 @@ public class ReviewController {
 	private final ReviewService reviewService;
 
 	@PostMapping("/orders/{orderId}/reviews")
+	// 메뉴, 스토어 dto로 받기
 	public ResponseEntity<ResponseMessage<ReviewResponseDto>> saveReview(
 		@Valid @RequestBody ReviewRequestDto dto,
 		@PathVariable Long orderId,

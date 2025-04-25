@@ -24,11 +24,13 @@ public enum ErrorCode {
     UNAUTHORIZED_USER(401, "Unauthorized", "U007", "Login is required."),
 
     // Store
+    STORE_NOT_FOUND(404,"Not Found","S001","Can Not Found Store"),
 
     // Menu
+    MENU_NOT_FOUND(404,"Not Found","M001","Can Not Found Menu"),
 
     // Order
-    ORDER_NOT_FOUND(404,"Not Found","R001","Can Not Found Order"),
+    ORDER_NOT_FOUND(404,"Not Found","O001","Can Not Found Order"),
 
     // Review
     REVIEW_NOT_FOUND(404,"Not Found","R001","Can Not Found Review"),

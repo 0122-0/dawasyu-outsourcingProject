@@ -2,6 +2,7 @@ package com.example.dawasyu.domain.review.dto.request;
 
 import java.time.LocalTime;
 
+import com.example.dawasyu.domain.menu.entity.Menu;
 import com.example.dawasyu.domain.order.entity.Order;
 import com.example.dawasyu.domain.review.entity.Review;
 import com.example.dawasyu.domain.store.entity.Store;
@@ -28,12 +29,18 @@ public class ReviewRequestDto {
 	@Max(5)
 	private final int rating;
 
-	public Review toEntity(Order order, User user) {
+	private final Long storeId;
+
+	private final Long menuId;
+
+	public Review toEntity(Order order, User user, Store store, Menu menu) {
 		return Review.builder()
 				.content(content)
 				.rating(rating)
 				.order(order)
 				.user(user)
+				.store(store)
+				.menu(menu)
 				.build();
 	}
 }

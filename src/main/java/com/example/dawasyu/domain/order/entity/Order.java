@@ -50,7 +50,6 @@ public class Order extends BaseEntity {
         this.user = user;
         this.orderNumber = orderNumber;
         this.orderStatus = OrderStatus.REQUESTED;
-
     }
 }
 

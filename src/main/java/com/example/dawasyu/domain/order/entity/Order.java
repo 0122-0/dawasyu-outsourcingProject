@@ -51,5 +51,9 @@ public class Order extends BaseEntity {
         this.orderNumber = orderNumber;
         this.orderStatus = OrderStatus.REQUESTED;
     }
+
+    public void updateStatus(OrderStatus orderStatus){
+        this.orderStatus = orderStatus;
+    }
 }
 

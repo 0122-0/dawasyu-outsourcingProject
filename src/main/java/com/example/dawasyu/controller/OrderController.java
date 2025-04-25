@@ -3,11 +3,15 @@ package com.example.dawasyu.controller;
 
 import com.example.dawasyu.common.annotation.LoginUser;
 import com.example.dawasyu.domain.order.dto.request.CreatedOrderRequestDto;
+import com.example.dawasyu.domain.order.dto.request.OrderStatusRequestDto;
 import com.example.dawasyu.domain.order.dto.response.CreatedOrderResponseDto;
 import com.example.dawasyu.domain.order.dto.response.OrderResponseDto;
+import com.example.dawasyu.domain.order.dto.response.OrderStatusResponseDto;
+import com.example.dawasyu.domain.order.entity.OrderStatus;
 import com.example.dawasyu.domain.order.service.OrderService;
 import com.example.dawasyu.domain.user.entity.User;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +33,25 @@ public class OrderController {
     }
 
 
-//    @GetMapping("/{orderId}")
-//    public ResponseEntity<OrderResponseDto> findOrderById (@PathVariable Long OrderId)
-//    {
-//       OrderResponseDto findedById = orderService.findOrderById(OrderId);
-//
-//        return new ResponseEntity<>(findedById, HttpStatus.OK);
-//    }
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderResponseDto> findOrderById (@PathVariable Long orderId, @LoginUser User loginUser)
+    {
+       OrderResponseDto findedById = orderService.findOrderById(orderId);
 
+        return new ResponseEntity<>(findedById, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{orderId}/status")
+    public ResponseEntity<OrderStatusResponseDto> changedStatus (
+            @PathVariable Long orderId,
+            @RequestBody OrderStatusRequestDto requestDto,
+            @LoginUser User loginUser)
+    {
+        OrderStatusResponseDto changedStatus = orderService.changedStatus(
+                orderId,
+                requestDto.getOldOrderStatus(),
+                requestDto.getNewOrderStatus()
+        );
+        return new ResponseEntity<>(changedStatus, HttpStatus.OK);
+    }
 }

@@ -2,6 +2,7 @@ package com.example.dawasyu.controller;
 
 import com.example.dawasyu.domain.menu.dto.request.CreateMenuRequest;
 import com.example.dawasyu.domain.menu.dto.request.UpdateMenuRequest;
+import com.example.dawasyu.domain.menu.dto.response.MenuFindResponse;
 import com.example.dawasyu.domain.menu.dto.response.MenuResponse;
 import com.example.dawasyu.domain.menu.service.MenuService;
 import jakarta.validation.Valid;
@@ -56,5 +57,13 @@ public class MenuController {
         return ResponseEntity.noContent().build();
     }
 
+    // GET 메뉴 단일조회 이름, 설명, 값
+    @GetMapping("/{menuId}")
+    public ResponseEntity<MenuFindResponse> findById(
+            @PathVariable Long storeId,
+            @PathVariable Long menuId
+    ){
+        return ResponseEntity.ok(menuService.findById(storeId,menuId));
 
+    }
 }

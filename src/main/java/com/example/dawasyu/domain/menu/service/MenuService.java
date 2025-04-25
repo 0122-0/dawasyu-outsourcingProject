@@ -3,6 +3,7 @@ package com.example.dawasyu.domain.menu.service;
 import com.example.dawasyu.domain.menu.dto.request.CreateMenuRequest;
 
 import com.example.dawasyu.domain.menu.dto.request.UpdateMenuRequest;
+import com.example.dawasyu.domain.menu.dto.response.MenuFindResponse;
 import com.example.dawasyu.domain.menu.dto.response.MenuResponse;
 import com.example.dawasyu.domain.menu.entity.Menu;
 import com.example.dawasyu.domain.store.entity.Store;
@@ -23,8 +24,7 @@ public class MenuService {
     private final StoreRepository storeRepository;
 
     public void create(Long storeId,CreateMenuRequest request) {
-        Store findStore = storeRepository.findById(storeId)
-                .orElseThrow(()->new RuntimeException("가게를 찾을 수 없습니다."));
+        Store findStore = StoreNotFound(storeId);
         Menu menu = new Menu(
                 request.getName(),
                 request.getDescription(),
@@ -39,17 +39,13 @@ public class MenuService {
 
 
     public void updateMenu(Long storeId, Long menuId,UpdateMenuRequest request) {
-        Store findStore = storeRepository.findById(storeId)
-                .orElseThrow(()->new RuntimeException("가게를 찾을 수 없습니다."));
-        Menu menu = menuRepository.findById(menuId)
-                .orElseThrow(()-> new RuntimeException("메뉴를 찾을 수 없습니다"));
-
+        Store store = StoreNotFound(storeId);
+        Menu menu = MenuNotFound(menuId);
         menu.update(request.getName(),request.getDescription(),request.getPrice(),request.getMenuStatus());
     }
 
     public List<MenuResponse> findAll(Long storeId) {
-        Store findstroe = storeRepository.findById(storeId)
-                .orElseThrow(()-> new RuntimeException("가게를 찾을 수 없습니다."));
+        Store store = StoreNotFound(storeId);
 
         return menuRepository.findAll()
                 .stream()
@@ -59,10 +55,37 @@ public class MenuService {
     }
 
     public void deleteMenu(Long storeId, Long menuId) {
-        storeRepository.findById(storeId)
-                .orElseThrow(()->new RuntimeException("가게를 찾을 수 없습니다."));
-        Menu menu = menuRepository.findById(menuId)
-                .orElseThrow(() -> new RuntimeException("메뉴를 찾을 수 없습니다."));
+        Store store = StoreNotFound(storeId);
+
+        Menu menu = MenuNotFound(menuId);
         menuRepository.delete(menu);
+    }
+
+
+    public MenuFindResponse findById(Long storeId, Long menuId) {
+        Menu menu = MenuNotFound(menuId);
+        Store store = StoreNotFound(storeId);
+
+        return new MenuFindResponse(
+                menu.getId(),
+                menu.getName(),
+                menu.getPrice(),
+                menu.getDescription()
+        );
+    }
+
+
+
+
+
+    // 메뉴 존재 하지않을 경우 예외처리
+    private Menu MenuNotFound(Long menuId){
+        return menuRepository.findById(menuId)
+                .orElseThrow(()->new RuntimeException("Menu not found"));
+    }
+    // 스토어 아이디 존재하지 않을 경우 예외처리
+    private Store StoreNotFound(Long storeId){
+        return storeRepository.findById(storeId)
+                .orElseThrow(()->new RuntimeException("Store not found"));
     }
 }

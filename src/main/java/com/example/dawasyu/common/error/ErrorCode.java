@@ -28,9 +28,13 @@ public enum ErrorCode {
     // Menu
 
     // Order
+    ORDER_NOT_FOUND(404,"Not Found","R001","Can Not Found Order"),
 
     // Review
-    REVIEW_NOT_FOUND(404,"Not Found","R001","Can Not Found Review");
+    REVIEW_NOT_FOUND(404,"Not Found","R001","Can Not Found Review"),
+    NOT_ORDER_OWNER(400, "Bad Request", "R002", "You are not the owner of this order."),
+    ALREADY_REVIEWED(400, "Bad Request", "R003", "A review has already been written for this order.");
+
 
     // Category
 

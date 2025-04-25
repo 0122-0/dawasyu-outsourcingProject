@@ -1,5 +1,7 @@
 package com.example.dawasyu.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.dawasyu.common.error.CustomException;
@@ -12,4 +14,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 	}
 
 	boolean existsByOrderId(Long orderId);
+
+	List<Review> findAllByUserId(Long userId);
 }

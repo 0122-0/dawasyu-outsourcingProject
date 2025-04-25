@@ -66,12 +66,7 @@ public class MenuService {
         Menu menu = MenuNotFound(menuId);
         Store store = StoreNotFound(storeId);
 
-        return new MenuFindResponse(
-                menu.getId(),
-                menu.getName(),
-                menu.getPrice(),
-                menu.getDescription()
-        );
+        return MenuFindResponse.from(menu);
     }
 
 

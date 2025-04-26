@@ -1,7 +1,6 @@
 package com.example.dawasyu.domain.store.entity;
 
 import com.example.dawasyu.common.baseEntity.BaseEntity;
-import com.example.dawasyu.domain.store.dto.request.RequestStoreDTO;
 import com.example.dawasyu.domain.storecategory.entity.StoreCategory;
 import com.example.dawasyu.domain.user.entity.User;
 import com.example.dawasyu.domain.menu.entity.Menu;
@@ -59,6 +58,7 @@ public class Store extends BaseEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Menu> menuList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StoreCategory> storeCategories = new ArrayList<>();
 

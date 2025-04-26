@@ -13,6 +13,7 @@ import com.example.dawasyu.common.error.CustomException;
 import com.example.dawasyu.common.error.ErrorCode;
 import com.example.dawasyu.domain.menu.entity.Menu;
 import com.example.dawasyu.domain.order.entity.Order;
+import com.example.dawasyu.domain.order.entity.OrderStatus;
 import com.example.dawasyu.domain.review.dto.request.ReviewRequestDto;
 import com.example.dawasyu.domain.review.dto.request.ReviewUpdateRequestDto;
 import com.example.dawasyu.domain.review.dto.response.ReviewResponseDto;
@@ -54,6 +55,11 @@ public class ReviewService {
 		// 중복 리뷰 방지
 		if (reviewRepository.existsByOrderId(orderId)) {
 			throw new CustomException(ErrorCode.ALREADY_REVIEWED);
+		}
+
+		// 배달 완료인지 확인
+		if (!order.getOrderStatus().equals(OrderStatus.COMPLETED)) {
+			throw new CustomException(ErrorCode.ORDER_NOT_COMPLETED);
 		}
 
 		// 리뷰 생성

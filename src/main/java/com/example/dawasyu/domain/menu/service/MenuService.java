@@ -13,6 +13,7 @@ import com.example.dawasyu.repository.StoreRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -56,10 +57,12 @@ public class MenuService {
 
     }
 
+    @Transactional
     public void deleteMenu(Long storeId, Long menuId) {
         Store store = StoreNotFound(storeId);
         Menu menu = MenuNotFound(menuId);
         menu.setDeleted(true);
+      menuRepository.save(menu);
 
     }
 //    메뉴 딜리티드일때 주문불가능하게 메뉴 목록 조회할때 딜리티드이면 못보게

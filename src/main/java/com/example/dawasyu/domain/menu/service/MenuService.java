@@ -58,11 +58,11 @@ public class MenuService {
 
     public void deleteMenu(Long storeId, Long menuId) {
         Store store = StoreNotFound(storeId);
-
         Menu menu = MenuNotFound(menuId);
-        menuRepository.delete(menu);
-    }
+        menu.setDeleted(true);
 
+    }
+//    메뉴 딜리티드일때 주문불가능하게 메뉴 목록 조회할때 딜리티드이면 못보게
 
     public MenuFindResponse findById(Long storeId, Long menuId) {
         Menu menu = MenuNotFound(menuId);
@@ -70,6 +70,7 @@ public class MenuService {
 
         return MenuFindResponse.from(menu);
     }
+
 
 
 

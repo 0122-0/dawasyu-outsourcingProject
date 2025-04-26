@@ -64,8 +64,9 @@ public class ReviewService {
 
 		// 리뷰 생성
 		Review reviewToSave = dto.toEntity(order, user, store, menu);
+		Review saved = reviewRepository.save(reviewToSave);
 
-		return ReviewResponseDto.toDto(reviewToSave);
+		return ReviewResponseDto.toDto(saved);
 	}
 
 	@Transactional
@@ -99,7 +100,7 @@ public class ReviewService {
 		reviewRepository.delete(findReview);
 	}
 
-
+	@Transactional(readOnly = true)
 	public List<ReviewResponseDto> findAllReviewsById(Long userId) {
 
 		// User user = userRepository.findUserByIdOrElseThrow(userId);
@@ -107,6 +108,21 @@ public class ReviewService {
 
 		return reviews.stream()
 			.map(ReviewResponseDto::toDto)
+			.collect(Collectors.toList());
+	}
+
+	@Transactional(readOnly = true)
+	public List<ReviewResponseDto> findAllReviewsByStoreId(Long storeId, Long userId) {
+
+		// 1. 가게 존재 여부 확인
+		Store store = storeRepository.findStoreByIdOrElseThrow(storeId);
+
+		// 2. 해당 가게에 작성된 리뷰 리스트 조회 (최신순 정렬)
+		List<Review> reviews = reviewRepository.findAllByStoreIdOrderByCreatedAtDesc(storeId);
+
+		// 3. 엔티티 → DTO 변환
+		return reviews.stream()
+			.map(review -> ReviewResponseDto.toDto(review))
 			.collect(Collectors.toList());
 	}
 }

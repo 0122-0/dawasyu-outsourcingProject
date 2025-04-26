@@ -56,4 +56,3 @@ public class Order extends BaseEntity {
         this.orderStatus = orderStatus;
     }
 }
-

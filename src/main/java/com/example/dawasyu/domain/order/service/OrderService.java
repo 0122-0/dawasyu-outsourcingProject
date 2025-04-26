@@ -38,16 +38,16 @@ public class OrderService {
     @Transactional
     public CreatedOrderResponseDto createOrder (CreatedOrderRequestDto requestDto, User loginUser) {
 
-         Long totalPrice = requestDto.getMenus().stream()
-                .mapToLong(menuDto -> {
-                    Menu menu = menuRepository.findById(menuDto.getMenuId())
-                            .orElseThrow(() -> new IllegalArgumentException("메뉴를 찾을 수 없습니다: " + menuDto.getMenuId()));
-                    return menu.getPrice() * menuDto.getQuantity();
-                })
-                .sum();
+        Long totalPrice = requestDto.getMenus().stream()
+            .mapToLong(menuDto -> {
+                Menu menu = menuRepository.findById(menuDto.getMenuId())
+                    .orElseThrow(() -> new IllegalArgumentException("메뉴를 찾을 수 없습니다: " + menuDto.getMenuId()));
+                return menu.getPrice() * menuDto.getQuantity();
+            })
+            .sum();
 
         List<OrderMenu> orderMenuList = requestDto.getMenus().stream().map(menuDto ->{
-                Menu menu = menuRepository.findMenuByIdOrElseThrow(menuDto.getMenuId());
+            Menu menu = menuRepository.findMenuByIdOrElseThrow(menuDto.getMenuId());
             // OrderMenu 객체를 생성하고, 수량 설정
             OrderMenu orderMenu = new OrderMenu(menu, menuDto.getQuantity());
 
@@ -63,16 +63,16 @@ public class OrderService {
     }
 
     public static String generateOrderNumber() {
-       String timePart = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMddHHmmss"));
-         int randomPart = new Random().nextInt(900000) + 100000;
-         return "DWS" + timePart + "-" + randomPart;
+        String timePart = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMddHHmmss"));
+        int randomPart = new Random().nextInt(900000) + 100000;
+        return "DWS" + timePart + "-" + randomPart;
     }
 
     public OrderResponseDto findOrderById (Long orderId){
 
-      Order findOrderById = orderRepository.findOrderById(orderId);
+        Order findOrderById = orderRepository.findOrderById(orderId);
 
-      return new OrderResponseDto(findOrderById);
+        return new OrderResponseDto(findOrderById);
     }
 
     public List<OrderResponseDto> findAll (){
@@ -97,4 +97,3 @@ public class OrderService {
     }
 
 }
-

@@ -16,4 +16,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 	boolean existsByOrderId(Long orderId);
 
 	List<Review> findAllByUserId(Long userId);
+
+	List<Review> findAllByStoreIdOrderByCreatedAtDesc(Long storeId);
 }

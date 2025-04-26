@@ -105,4 +105,23 @@ public class ReviewController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 	}
+
+	// 상점 리뷰 조회
+	@GetMapping("/stores/{storeId}/reviews")
+	public ResponseEntity<ResponseMessage<List<ReviewResponseDto>>> findAllReviewsByStoreId(
+		@PathVariable Long storeId,
+		@LoginUser User loginUser
+	) {
+		List<ReviewResponseDto> responseDtoList = reviewService.findAllReviewsByStoreId(storeId, loginUser.getId());
+
+		ResponseMessage<List<ReviewResponseDto>> responseMessage = ResponseMessage.<List<ReviewResponseDto>>builder()
+			.statusCode(HttpStatus.OK.value())
+			.message("리뷰 조회 성공")
+			.data(responseDtoList)
+			.build();
+
+		return ResponseEntity.ok(responseMessage);
+	}
+
+
 }

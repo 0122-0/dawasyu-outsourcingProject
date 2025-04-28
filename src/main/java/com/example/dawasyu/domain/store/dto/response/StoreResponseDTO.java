@@ -25,7 +25,27 @@ public class StoreResponseDTO {
     private LocalTime openTime;
     private LocalTime closeTime;
     private List<CategoryResponseDTO> categories;
+    private List<MenuFindResponse> menus;
 
+
+    public static StoreResponseDTO toSave(Store store) {
+        return StoreResponseDTO.builder()
+                .id(store.getId())
+                .name(store.getName())
+                .number(store.getNumber())
+                .bizNo(store.getBizNo())
+                .roadAddress(store.getRoadAddress())
+                .detailAddress(store.getDetailAddress())
+                .minPrice(store.getMinPrice())
+                .openTime(store.getOpenTime())
+                .closeTime(store.getCloseTime())
+                .categories(
+                        store.getStoreCategories().stream()
+                                .map(storeCategory -> CategoryResponseDTO.toDto(storeCategory.getCategory()))
+                                .toList()
+                )
+                .build();
+    }
 
     public static StoreResponseDTO toDto(Store store) {
         return StoreResponseDTO.builder()
@@ -41,6 +61,12 @@ public class StoreResponseDTO {
                 .categories(
                         store.getStoreCategories().stream()
                                 .map(storeCategory -> CategoryResponseDTO.toDto(storeCategory.getCategory()))
+                                .toList()
+                )
+                .menus(
+                        store.getMenuList().stream()
+                                .filter(menu -> menu.getMenuStatus() != MenuStatus.DELETED)
+                                .map(MenuFindResponse::from)
                                 .toList()
                 )
                 .build();

@@ -2,6 +2,7 @@ package com.example.dawasyu.common.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
@@ -22,6 +23,9 @@ public enum ErrorCode {
 
     // Store
     STORE_NOT_FOUND(404,"Not Found","S001","Can Not Found Store"),
+    ALREADY_CLOSED_STORE(400, "Bad Request", "S002", "Already Closed Store"),
+    NO_AUTHORIZATION(403, "Forbidden", "S003", "No Authorization for This Store"),
+    STORE_LIMIT_MAX(404,"Not Found","S001","Only 3 stores are allowed per account."),
 
     // Menu
     MENU_NOT_FOUND(404,"Not Found","M001","Can Not Found Menu"),
@@ -38,7 +42,6 @@ public enum ErrorCode {
 
 
     // Category
-
     private final int status;
     private final String error;
     private final String code;

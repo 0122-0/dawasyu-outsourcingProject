@@ -1,6 +1,7 @@
 package com.example.dawasyu.domain.store.dto.response;
 
 import com.example.dawasyu.domain.category.dto.response.CategoryResponseDTO;
+import com.example.dawasyu.domain.menu.dto.response.MenuFindResponse;
 import com.example.dawasyu.domain.store.entity.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,7 @@ public class StoreResponseDTO {
     private LocalTime openTime;
     private LocalTime closeTime;
     private List<CategoryResponseDTO> categories;
+    private List<MenuFindResponse> menus;
 
     public static StoreResponseDTO toDto(Store store) {
         return StoreResponseDTO.builder()
@@ -36,11 +38,14 @@ public class StoreResponseDTO {
                 .openTime(store.getOpenTime())
                 .closeTime(store.getCloseTime())
                 .categories(
-                        // 1. Store 안에있는 List<StoreCategory>를 가져옴
-                        // 2. 이 리스트를 Strea API로 변환 ( 리스트를 순차적으로 돌리면서 처리 할 수 있게 해줌)
-                        // 3. map이 핵심동작 각각 StoreCategory 객체에서 Category 엔티티를 꺼내서 그걸 toDto 로 반환
                         store.getStoreCategories().stream()
                                 .map(storeCategory -> CategoryResponseDTO.toDto(storeCategory.getCategory()))
+                                .toList()
+                )
+                .menus(
+                        store.getMenuList().stream()
+                                .filter(menu -> !menu.isDeleted())
+                                .map(MenuFindResponse::from)
                                 .toList()
                 )
                 .build();

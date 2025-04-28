@@ -122,7 +122,8 @@ USER는 등록된 가게를 조회하고, 메뉴를 선택하여 주문할 수 �
 ---
 
 ## ERD 작성
-![outsourcingProject (2)](https://github.com/user-attachments/assets/d1941d99-449d-4730-8962-98a87ed93491)
+![outsourcingProject](https://github.com/user-attachments/assets/3f2e1375-cb1e-43de-acae-f2b80160182e)
+
 
 ---
 
@@ -168,8 +169,7 @@ CREATE TABLE `store` (
 	`최소 주문금액`	INT	NULL,
 	`오픈 시간`	TIME	NULL,
 	`마감 시간`	TIME	NULL,
-	`유저 ID (사장님)`	BIGINT (FK)	NOT NULL,
-	`메뉴 리스트`	LIST	NOT NULL	DEFAULT PK
+	`유저 ID (사장님)`	BIGINT (FK)	NOT NULL
 );
 
 CREATE TABLE `order` (
@@ -178,19 +178,30 @@ CREATE TABLE `order` (
 	`전체 금액`	INT	NULL,
 	`주문 상태`	ENUM('REQUESTED', 'ACCEPTED', 'DELIVERING', 'COMPLETED')	NULL,
 	`주문자 유저 ID`	BIGINT(FK)	NOT NULL,
-	`주문한 가게 ID`	BIGINT(FK)	NOT NULL,
-	`주문한 메뉴 ID`	BIGINT(FK)	NOT NULL
-);
-
-CREATE TABLE `category` (
-	`기본키`	BIGINT(PK,Auto Increment)	NOT NULL	DEFAULT PK,
-	`카테고리 이름`	VARCHAR(20)	NULL,
-	`스토어 리스트`	LIST	NOT NULL	DEFAULT PK
+	`주문한 가게 ID`	BIGINT(FK)	NOT NULL
 );
 
 CREATE TABLE `baseEntity` (
 	`생성일시`	DATETIME	NULL,
 	`수정일시`	DATETIME	NULL
+);
+
+CREATE TABLE `ordermenu` (
+	`Key`	VARCHAR(255)	NOT NULL,
+	`수량`	INT	NOT NULL,
+	`메뉴 아이디`	BIGINT(FK)	NOT NULL	DEFAULT FK,
+	`오더 아이디`	BIGINT(FK)	NOT NULL	DEFAULT FK
+);
+
+CREATE TABLE `storeCategory` (
+	`기본키`	BIGINT(PK,Auto Increment)	NOT NULL	DEFAULT PK,
+	`스토어 아이디`	BIGINT(FK)	NOT NULL,
+	`카테고리 아이디`	BIGINT(FK)	NOT NULL	DEFAULT FK
+);
+
+CREATE TABLE `category` (
+	`기본키`	BIGINT(PK,Auto Increment)	NOT NULL	DEFAULT PK,
+	`카테고리 이름`	VARCHAR(20)	NULL
 );
 
 ALTER TABLE `review` ADD CONSTRAINT `PK_REVIEW` PRIMARY KEY (
@@ -213,9 +224,18 @@ ALTER TABLE `order` ADD CONSTRAINT `PK_ORDER` PRIMARY KEY (
 	`기본키`
 );
 
+ALTER TABLE `ordermenu` ADD CONSTRAINT `PK_ORDERMENU` PRIMARY KEY (
+	`Key`
+);
+
+ALTER TABLE `storeCategory` ADD CONSTRAINT `PK_STORECATEGORY` PRIMARY KEY (
+	`기본키`
+);
+
 ALTER TABLE `category` ADD CONSTRAINT `PK_CATEGORY` PRIMARY KEY (
 	`기본키`
 );
+
 ```
 
 ---

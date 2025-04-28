@@ -4,6 +4,7 @@ import com.example.dawasyu.domain.menu.dto.request.CreateMenuRequest;
 import com.example.dawasyu.domain.menu.dto.request.UpdateMenuRequest;
 import com.example.dawasyu.domain.menu.dto.response.MenuFindResponse;
 import com.example.dawasyu.domain.menu.dto.response.MenuResponse;
+import com.example.dawasyu.domain.menu.entity.MenuStatus;
 import com.example.dawasyu.domain.menu.service.MenuService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static java.awt.SystemColor.menu;
 
 @RestController
 @RequestMapping("/stores/{storeId}/menus")
@@ -54,6 +57,7 @@ public class MenuController {
             @PathVariable Long menuId
     ){
         menuService.deleteMenu(storeId, menuId);
+
         return ResponseEntity.noContent().build();
     }
 

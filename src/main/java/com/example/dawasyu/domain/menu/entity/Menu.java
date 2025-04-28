@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,8 @@ public class Menu extends BaseEntity {
     @Column(nullable = false)
     private Long price;
 
+
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MenuStatus menuStatus;
@@ -46,9 +49,6 @@ public class Menu extends BaseEntity {
 
     @Column(nullable = false)
     private boolean isDeleted = false; // 논리 삭제
-
-
-
 
     //메뉴 생성 부분
     public Menu(String name, String description, Long price, MenuStatus menuStatus, Store store) {
@@ -70,4 +70,5 @@ public class Menu extends BaseEntity {
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
+
 }

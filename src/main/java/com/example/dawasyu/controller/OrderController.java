@@ -13,6 +13,7 @@ import com.example.dawasyu.domain.user.entity.User;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,30 +21,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/orders")
 @RequiredArgsConstructor
+@Aspect
 public class OrderController {
 
     private final OrderService orderService;
     //@LoginUser user 값이 spring 안에 있는 유저로직이 토큰을 받아서 login 유저가 누구인지 알려준다.
-    @PostMapping
-    public ResponseEntity<CreatedOrderResponseDto> createOrder (@RequestBody @Valid CreatedOrderRequestDto requestDto, @LoginUser User loginUser)
+    @PostMapping("/stores/{storeId}/orders")
+    public ResponseEntity<CreatedOrderResponseDto> createOrder (@RequestBody @Valid CreatedOrderRequestDto requestDto,@PathVariable Long storeId, @LoginUser User loginUser)
     {
-        CreatedOrderResponseDto responseDto = orderService.createOrder(requestDto, loginUser);
+        CreatedOrderResponseDto responseDto = orderService.createOrder( requestDto,storeId, loginUser);
 
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
 
-    @GetMapping("/{orderId}")
-    public ResponseEntity<OrderResponseDto> findOrderById (@PathVariable Long orderId, @LoginUser User loginUser)
+    @GetMapping("/stores/{storeId}/orders/{orderId}")
+    public ResponseEntity<OrderResponseDto> findOrderById (@PathVariable Long storeId,@PathVariable Long orderId, @LoginUser User loginUser)
     {
-       OrderResponseDto findedById = orderService.findOrderById(orderId);
+       OrderResponseDto findedById = orderService.findOrderById(storeId,orderId);
 
         return new ResponseEntity<>(findedById, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/orders")
     public ResponseEntity<List<OrderResponseDto>> findAll (){
 
         List<OrderResponseDto> findAll = orderService.findAll();
@@ -51,13 +52,16 @@ public class OrderController {
         return new ResponseEntity<>(findAll, HttpStatus.OK);
     }
 
-    @PatchMapping("/{orderId}/status")
+    @PatchMapping("/stores/{storeId}/orders/{orderId}/status")
+
     public ResponseEntity<OrderStatusResponseDto> changedStatus (
+            @PathVariable Long storeId,
             @PathVariable Long orderId,
             @RequestBody OrderStatusRequestDto requestDto,
             @LoginUser User loginUser)
     {
         OrderStatusResponseDto changedStatus = orderService.changedStatus(
+                storeId,
                 orderId,
                 requestDto.getOldOrderStatus(),
                 requestDto.getNewOrderStatus()

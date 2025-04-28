@@ -99,6 +99,11 @@ USER는 등록된 가게를 조회하고, 메뉴를 선택하여 주문할 수 �
 
 ---
 
+### 변수 지정표
+![image](https://github.com/user-attachments/assets/efac7732-9ea7-4b29-8535-9c1a416549da)
+
+---
+
 ## 연관관계
 <img width="518" alt="image" src="https://github.com/user-attachments/assets/7f66b473-d59c-45fd-a090-00abadae1077" />
 
@@ -109,18 +114,20 @@ USER는 등록된 가게를 조회하고, 메뉴를 선택하여 주문할 수 �
 ### User, Auth
 ![image](https://github.com/user-attachments/assets/e8d65e4f-f4cc-4e1c-ac4c-9f30e0a232b3)
 
-
 ### Store
+![image](https://github.com/user-attachments/assets/f93581a9-a98c-49e1-aee1-cc4aaeaab5d5)
 
+### Category
+![image](https://github.com/user-attachments/assets/25e67b44-5dad-4a1f-bf42-bc8375589d4f)
 
 ### Menu
-
+![image](https://github.com/user-attachments/assets/84594244-52aa-4563-ae58-7b5db2b9bedb)
 
 ### Order
-
+![image](https://github.com/user-attachments/assets/403176cf-ff88-4771-8eb6-896160036c7d)
 
 ### Review
-
+![image](https://github.com/user-attachments/assets/5010a055-33a3-4471-8c0a-416b8017535b)
 
 ---
 

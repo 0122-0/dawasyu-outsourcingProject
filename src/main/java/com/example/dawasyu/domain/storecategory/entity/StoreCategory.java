@@ -1,6 +1,5 @@
 package com.example.dawasyu.domain.storecategory.entity;
 
-import com.example.dawasyu.common.baseEntity.BaseEntity;
 import com.example.dawasyu.domain.category.entity.Category;
 import com.example.dawasyu.domain.store.entity.Store;
 import jakarta.persistence.*;
@@ -33,5 +32,4 @@ public class StoreCategory {
                 .category(category)
                 .build();
     }
-
 }

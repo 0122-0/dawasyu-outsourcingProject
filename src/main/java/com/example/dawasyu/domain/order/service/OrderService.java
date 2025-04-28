@@ -111,7 +111,6 @@ public class OrderService {
                 .toList();
     }
 
-
     @Transactional
     public OrderStatusResponseDto changedStatus (Long storeId, Long orderId,OrderStatus oldOrderStatus, OrderStatus newOrderStatus){
 
@@ -125,5 +124,4 @@ public class OrderService {
 
         return new OrderStatusResponseDto(findOrderById);
     }
-
 }

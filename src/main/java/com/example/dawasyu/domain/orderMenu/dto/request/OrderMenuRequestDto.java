@@ -5,10 +5,7 @@ import lombok.Getter;
 @Getter
 public class OrderMenuRequestDto {
 
-
     private Long menuId;
 
     private int quantity;
-
-
 }

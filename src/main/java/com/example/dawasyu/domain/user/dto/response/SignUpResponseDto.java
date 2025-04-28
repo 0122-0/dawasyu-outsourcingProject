@@ -15,7 +15,6 @@ public class SignUpResponseDto {
 
     private final LocalDateTime createdAt;
 
-
     public SignUpResponseDto(Long id, String email, String nickname, LocalDateTime createdAt) {
         this.id = id;
         this.email = email;

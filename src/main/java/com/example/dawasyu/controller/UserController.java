@@ -3,7 +3,6 @@ package com.example.dawasyu.controller;
 import com.example.dawasyu.common.annotation.LoginUser;
 import com.example.dawasyu.common.jwt.JwtProvider;
 import com.example.dawasyu.common.reponseMessege.ResponseMessage;
-import com.example.dawasyu.domain.review.dto.response.ReviewResponseDto;
 import com.example.dawasyu.domain.user.dto.request.DeleteUserRequestDto;
 import com.example.dawasyu.domain.user.dto.request.SignUpRequestDto;
 import com.example.dawasyu.domain.user.dto.request.UpdatePasswordRequestDto;
@@ -66,7 +65,6 @@ public class UserController {
         }
     }
 
-
     // 나의 프로필 조회
     @GetMapping("/me")
     public ResponseEntity<ResponseMessage<UserResponseDto>> findUserById(@LoginUser User loginUser) {
@@ -107,8 +105,4 @@ public class UserController {
                 .build();
         return new ResponseEntity<>(responseMessage, HttpStatus.OK);
     }
-
-
-
-
 }

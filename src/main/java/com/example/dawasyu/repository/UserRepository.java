@@ -14,6 +14,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
+    Optional<User> findByEmailAndDeletedFalse(String email);
+
+    default User findByEmailAndDeletedFalseOrElseThrow(String email) {
+        return findByEmailAndDeletedFalse(email).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+    }
+
     Optional<User> findById(Long userId);
 
     Optional<User> findUserById (Long userId);

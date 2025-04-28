@@ -4,6 +4,7 @@ package com.example.dawasyu.domain.order.service;
 import com.example.dawasyu.common.error.CustomException;
 import com.example.dawasyu.common.error.ErrorCode;
 import com.example.dawasyu.domain.menu.entity.Menu;
+import com.example.dawasyu.domain.menu.entity.MenuStatus;
 import com.example.dawasyu.domain.order.dto.request.CreatedOrderRequestDto;
 import com.example.dawasyu.domain.order.dto.response.CreatedOrderResponseDto;
 
@@ -53,18 +54,14 @@ public class OrderService {
         }
 
         if (openTime.isBefore(closeTime)) {
-            // 같은 날 오픈, 같은 날 마감 (ex: 09:00 ~ 22:00)
             isOpen = !now.isBefore(openTime) && !now.isAfter(closeTime);
         } else {
-            // 자정 넘어가는 경우 (ex: 23:00 ~ 12:00)
             isOpen = !now.isBefore(openTime) || !now.isAfter(closeTime);
         }
 
         if (!isOpen) {
             throw new RuntimeException("지금은 주문하실 수 없습니다. (운영시간: " + openTime + " ~ " + closeTime + ")");
         }
-
-        // 주문할수 없는 메뉴 if ()
 
 
         Long totalPrice = requestDto.getMenus().stream()
@@ -78,10 +75,10 @@ public class OrderService {
         List<OrderMenu> orderMenuList = requestDto.getMenus().stream().map(menuDto ->{
             Menu menu = menuRepository.findMenuByIdOrElseThrow(menuDto.getMenuId());
             // OrderMenu 객체를 생성하고, 수량 설정
-            OrderMenu orderMenu = new OrderMenu(menu, menuDto.getQuantity());
-
-
-            return orderMenu;
+            if(menu.getMenuStatus() == MenuStatus.DELETED) {
+                throw new RuntimeException("주문하실수 없는 메뉴가 있습니다.");
+            }
+            return new OrderMenu(menu, menuDto.getQuantity());
         }).collect(Collectors.toList());
 
         Order order = new Order(totalPrice, generateOrderNumber(), loginUser, orderMenuList);

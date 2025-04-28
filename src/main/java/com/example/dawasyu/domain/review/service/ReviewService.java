@@ -3,11 +3,9 @@ package com.example.dawasyu.domain.review.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.example.dawasyu.common.error.CustomException;
 import com.example.dawasyu.common.error.ErrorCode;
@@ -80,7 +78,6 @@ public class ReviewService {
 		}
 
 		findReview.updateReview(dto.getContent(), dto.getRating());
-
 	}
 
 	public void delete(String password, Long reviewId, Long userId) {

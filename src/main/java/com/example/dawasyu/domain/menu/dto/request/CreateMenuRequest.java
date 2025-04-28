@@ -20,7 +20,6 @@ public class CreateMenuRequest {
 
     @NotNull
     private MenuStatus menuStatus;
-
 }
 
 

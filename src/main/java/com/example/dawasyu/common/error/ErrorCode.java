@@ -2,7 +2,6 @@ package com.example.dawasyu.common.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
@@ -41,8 +40,9 @@ public enum ErrorCode {
     USER_NOT_MATCHED(400, "Bad Request", "R004", "The user is not authorized to modify this review"),
     ORDER_NOT_COMPLETED(400, "Bad Request", "R005", "The order has not been completed yet and cannot be reviewed.");
 
-
     // Category
+
+
     private final int status;
     private final String error;
     private final String code;

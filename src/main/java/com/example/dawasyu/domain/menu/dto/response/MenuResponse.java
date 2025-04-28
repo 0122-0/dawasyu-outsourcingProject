@@ -23,7 +23,6 @@ public class MenuResponse {
                 menu.getName(),
                 menu.getPrice(),
                 menu.getMenuStatus()
-
         );
     }
 }

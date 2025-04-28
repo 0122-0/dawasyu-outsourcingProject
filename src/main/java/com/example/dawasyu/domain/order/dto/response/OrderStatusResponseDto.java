@@ -1,15 +1,11 @@
 package com.example.dawasyu.domain.order.dto.response;
 
 
-import com.example.dawasyu.common.baseEntity.BaseEntity;
 import com.example.dawasyu.domain.order.entity.Order;
 import com.example.dawasyu.domain.order.entity.OrderStatus;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Getter
 public class OrderStatusResponseDto {

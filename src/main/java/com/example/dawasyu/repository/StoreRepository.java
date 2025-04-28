@@ -34,5 +34,4 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 	List<Store> findStoresOpenAt(@Param("queryTime") LocalTime queryTime);
 
 	List<Store> findByNameContainingAndDeletedAtIsNull(String name);
-
 }

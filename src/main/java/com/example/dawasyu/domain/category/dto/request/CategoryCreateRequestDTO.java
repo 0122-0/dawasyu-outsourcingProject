@@ -1,7 +1,6 @@
 package com.example.dawasyu.domain.category.dto.request;
 
 import com.example.dawasyu.domain.category.entity.Category;
-import com.example.dawasyu.domain.store.entity.Store;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

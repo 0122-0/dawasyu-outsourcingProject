@@ -3,6 +3,7 @@ package com.example.dawasyu.common.error;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.dawasyu.common.reponseMessege.ResponseMessage;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -102,10 +103,13 @@ public class GlobalExceptionHandler {
 
     // 그 외 모든 예외 처리
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handleException(Exception e) {
-        log.error("Exception: {}", e.getMessage());
-        ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<ResponseMessage<Void>> handleServerError(Exception ex) {
+        ResponseMessage<Void> response = ResponseMessage.<Void>builder()
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .message("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                .data(null)
+                .build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
     // BindingResult 에서 발생한 필드 에러 목록을 ErrorResponse.FieldError 목록으로 반환

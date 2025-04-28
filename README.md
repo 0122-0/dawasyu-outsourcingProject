@@ -1,5 +1,8 @@
 # Dawssyu
 
+![image](https://github.com/user-attachments/assets/7afa7809-4c0e-4c65-86a0-669c431993b7)
+
+
 ## 팀원 및 역할
 ```
 이름 | 담당 기능 | 추가 업무
@@ -110,11 +113,135 @@ USER는 등록된 가게를 조회하고, 메뉴를 선택하여 주문할 수 �
 ### Store
 
 
+### Menu
+
+
+### Order
+
+
+### Review
+
+
+---
 
 ## ERD 작성
+![outsourcingProject](https://github.com/user-attachments/assets/3f2e1375-cb1e-43de-acae-f2b80160182e)
 
+
+---
 
 ## SQL 작성
+
+```
+CREATE TABLE `review` (
+	`기본키`	BIGINT(PK,Auto Increment)	NOT NULL	DEFAULT PK,
+	`리뷰 내용`	TEXT	NULL,
+	`별점(0~5) 정도`	TINYINT	NULL,
+	`작성자 유저 ID`	BIGINT(FK)	NOT NULL,
+	`리뷰 대상 가게 ID`	BIGINT(FK)	NOT NULL
+);
+
+CREATE TABLE `user` (
+	`기본키`	BIGINT(PK,Auto Increment)	NOT NULL	DEFAULT PK,
+	`이메일`	VARCHAR(50)	NULL,
+	`비밀번호`	VARCHAR(20)	NULL,
+	`이름`	VARCHAR(20)	NULL,
+	`전화번호`	VARCHAR(20)	NULL,
+	`닉네임`	VARCHAR(20)	NULL,
+	`기본주소`	VARCHAR(100)	NULL,
+	`상세주소`	VARCHAR(100)	NULL,
+	`유저 유형`	ENUM('USER', 'OWNER')	NULL
+);
+
+CREATE TABLE `menu` (
+	`기본키`	BIGINT(PK,Auto Increment)	NOT NULL	DEFAULT PK,
+	`메뉴 이름`	VARCHAR(20)	NULL,
+	`메뉴 설명`	TEXT	NULL,
+	`가격`	INT	NULL,
+	`메뉴 상태`	ENUM('ACTIVE', 'DELETED')	NULL,
+	`가게 ID`	BIGINT(FK)	NOT NULL
+);
+
+CREATE TABLE `store` (
+	`기본키`	BIGINT(PK,Auto Increment)	NOT NULL	DEFAULT PK,
+	`가게 이름`	VARCHAR(20)	NULL,
+	`전화번호`	VARCHAR(20)	NULL,
+	`사업자등록번호`	VARCHAR(20)	NULL,
+	`기본주소`	VARCHAR(100)	NULL,
+	`상세주소`	VARCHAR(100)	NULL,
+	`최소 주문금액`	INT	NULL,
+	`오픈 시간`	TIME	NULL,
+	`마감 시간`	TIME	NULL,
+	`유저 ID (사장님)`	BIGINT (FK)	NOT NULL
+);
+
+CREATE TABLE `order` (
+	`기본키`	BIGINT(PK,Auto Increment)	NOT NULL	DEFAULT PK,
+	`주문번호`	VARCHAR(20)	NULL,
+	`전체 금액`	INT	NULL,
+	`주문 상태`	ENUM('REQUESTED', 'ACCEPTED', 'DELIVERING', 'COMPLETED')	NULL,
+	`주문자 유저 ID`	BIGINT(FK)	NOT NULL,
+	`주문한 가게 ID`	BIGINT(FK)	NOT NULL
+);
+
+CREATE TABLE `baseEntity` (
+	`생성일시`	DATETIME	NULL,
+	`수정일시`	DATETIME	NULL
+);
+
+CREATE TABLE `ordermenu` (
+	`Key`	VARCHAR(255)	NOT NULL,
+	`수량`	INT	NOT NULL,
+	`메뉴 아이디`	BIGINT(FK)	NOT NULL	DEFAULT FK,
+	`오더 아이디`	BIGINT(FK)	NOT NULL	DEFAULT FK
+);
+
+CREATE TABLE `storeCategory` (
+	`기본키`	BIGINT(PK,Auto Increment)	NOT NULL	DEFAULT PK,
+	`스토어 아이디`	BIGINT(FK)	NOT NULL,
+	`카테고리 아이디`	BIGINT(FK)	NOT NULL	DEFAULT FK
+);
+
+CREATE TABLE `category` (
+	`기본키`	BIGINT(PK,Auto Increment)	NOT NULL	DEFAULT PK,
+	`카테고리 이름`	VARCHAR(20)	NULL
+);
+
+ALTER TABLE `review` ADD CONSTRAINT `PK_REVIEW` PRIMARY KEY (
+	`기본키`
+);
+
+ALTER TABLE `user` ADD CONSTRAINT `PK_USER` PRIMARY KEY (
+	`기본키`
+);
+
+ALTER TABLE `menu` ADD CONSTRAINT `PK_MENU` PRIMARY KEY (
+	`기본키`
+);
+
+ALTER TABLE `store` ADD CONSTRAINT `PK_STORE` PRIMARY KEY (
+	`기본키`
+);
+
+ALTER TABLE `order` ADD CONSTRAINT `PK_ORDER` PRIMARY KEY (
+	`기본키`
+);
+
+ALTER TABLE `ordermenu` ADD CONSTRAINT `PK_ORDERMENU` PRIMARY KEY (
+	`Key`
+);
+
+ALTER TABLE `storeCategory` ADD CONSTRAINT `PK_STORECATEGORY` PRIMARY KEY (
+	`기본키`
+);
+
+ALTER TABLE `category` ADD CONSTRAINT `PK_CATEGORY` PRIMARY KEY (
+	`기본키`
+);
+
+```
+
+---
 
 ## 패키지 구조
 

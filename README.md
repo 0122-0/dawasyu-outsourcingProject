@@ -1,4 +1,4 @@
-#Dawssyu
+# Dawssyu
 
 ## 팀원 및 역할
 ```
@@ -102,6 +102,13 @@ USER는 등록된 가게를 조회하고, 메뉴를 선택하여 주문할 수 �
 ---
 
 ## API 명세서
+
+### User, Auth
+![image](https://github.com/user-attachments/assets/e8d65e4f-f4cc-4e1c-ac4c-9f30e0a232b3)
+
+
+### Store
+
 
 
 ## ERD 작성

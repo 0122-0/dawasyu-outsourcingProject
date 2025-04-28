@@ -53,7 +53,7 @@ public class StoreService {
         }
 
         // List형식으로 add된 category객체들을 연관관계를 통해 중간 DB에 등록하고, 해당 객체들을 리턴
-        return StoreResponseDTO.toDto(storeRepository.save(store));
+        return StoreResponseDTO.toSave(storeRepository.save(store));
     }
 
     @Transactional(readOnly = true)

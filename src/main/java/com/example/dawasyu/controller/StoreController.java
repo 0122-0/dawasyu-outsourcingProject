@@ -97,8 +97,4 @@ public class StoreController {
 
         return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
     }
-
-    // 오픈된 가게 ID 조회 시 메뉴도 조회
-
-
 }

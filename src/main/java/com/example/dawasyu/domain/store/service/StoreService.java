@@ -37,6 +37,14 @@ public class StoreService {
             throw new CustomException(ErrorCode.STORE_LIMIT_MAX);
         }
 
+        // 카테고리 없는 경우 예외 처리
+        if (reqDTO.getCategories() == null || reqDTO.getCategories().isEmpty()) {
+            throw new CustomException(ErrorCode.STORE_CREATE_CATEGORY_NOT_FOUND);
+        }
+
+        // 이름, 번호, 사업자번호 중복 체크
+        validateDuplicateStoreInfo(reqDTO);
+
         Store store = reqDTO.toEntity(owner);
         storeRepository.save(store);
 
@@ -116,5 +124,19 @@ public class StoreService {
         }
 
         store.closeStore();
+    }
+
+    private void validateDuplicateStoreInfo(StoreCreateRequestDTO reqDTO) {
+        if (storeRepository.existsByName(reqDTO.getName())) {
+            throw new CustomException(ErrorCode.DUPLICATE_STORE_NAME);
+        }
+
+        if (storeRepository.existsByNumber(reqDTO.getNumber())) {
+            throw new CustomException(ErrorCode.DUPLICATE_STORE_NUMBER);
+        }
+
+        if (storeRepository.existsByBizNo(reqDTO.getBizNo())) {
+            throw new CustomException(ErrorCode.DUPLICATE_STORE_BIZNO);
+        }
     }
 }

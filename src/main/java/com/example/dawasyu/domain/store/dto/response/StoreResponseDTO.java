@@ -2,6 +2,7 @@ package com.example.dawasyu.domain.store.dto.response;
 
 import com.example.dawasyu.domain.category.dto.response.CategoryResponseDTO;
 import com.example.dawasyu.domain.menu.dto.response.MenuFindResponse;
+import com.example.dawasyu.domain.menu.entity.MenuStatus;
 import com.example.dawasyu.domain.store.entity.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,7 @@ public class StoreResponseDTO {
     private LocalTime openTime;
     private LocalTime closeTime;
     private List<CategoryResponseDTO> categories;
-    private List<MenuFindResponse> menus;
+
 
     public static StoreResponseDTO toDto(Store store) {
         return StoreResponseDTO.builder()
@@ -40,12 +41,6 @@ public class StoreResponseDTO {
                 .categories(
                         store.getStoreCategories().stream()
                                 .map(storeCategory -> CategoryResponseDTO.toDto(storeCategory.getCategory()))
-                                .toList()
-                )
-                .menus(
-                        store.getMenuList().stream()
-                                .filter(menu -> !menu.isDeleted())
-                                .map(MenuFindResponse::from)
                                 .toList()
                 )
                 .build();

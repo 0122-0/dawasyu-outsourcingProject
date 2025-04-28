@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,8 @@ public class Menu extends BaseEntity {
     @Column(nullable = false)
     private Long price;
 
+
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MenuStatus menuStatus;
@@ -43,10 +46,6 @@ public class Menu extends BaseEntity {
 
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderMenu> orderMenus = new ArrayList<>();
-
-    @Column(nullable = false)
-    private boolean isDeleted = false; // 논리 삭제
-
 
 
 
@@ -67,7 +66,9 @@ public class Menu extends BaseEntity {
         this.menuStatus = menuStatus;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setDeleted() {
+        this.menuStatus = MenuStatus.DELETED;
     }
+
+
 }

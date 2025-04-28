@@ -29,6 +29,7 @@ public enum ErrorCode {
 
     // Menu
     MENU_NOT_FOUND(404,"Not Found","M001","Can Not Found Menu"),
+    MENU_ALREADY_DELETED(409, "CONFLICT","M002","Menu Already Deleted"),
 
     // Order
     ORDER_NOT_FOUND(404,"Not Found","O001","Can Not Found Order"),

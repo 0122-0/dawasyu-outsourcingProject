@@ -1,6 +1,7 @@
 package com.example.dawasyu.domain.menu.dto.response;
 
 import com.example.dawasyu.domain.menu.entity.Menu;
+import com.example.dawasyu.domain.menu.entity.MenuStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,10 @@ public class MenuFindResponse {
     private Long price;
 
     private String description;
+
+
+
+
 
     public static MenuFindResponse from(Menu menu){
         return new MenuFindResponse(

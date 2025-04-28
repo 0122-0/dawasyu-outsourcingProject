@@ -23,16 +23,10 @@ public class AuthController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<ResponseMessage<LoginResponseDto>> login(@RequestBody LoginRequestDto requestDto) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto requestDto) {
         LoginResponseDto response = authService.login(requestDto.getEmail(), requestDto.getPassword());
 
-        ResponseMessage<LoginResponseDto> responseMessage = ResponseMessage.<LoginResponseDto>builder()
-                .statusCode(HttpStatus.OK.value())
-                .message("로그인 성공")
-                .data(response)
-                .build();
-
-        return ResponseEntity.ok(responseMessage);
+        return ResponseEntity.ok(response);
     }
 
 

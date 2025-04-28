@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dawasyu.common.annotation.LoginUser;
@@ -53,7 +54,7 @@ public class ReviewController {
 	}
 
 	// 리뷰 수정
-	@PatchMapping("/reviews/{reviewId}")
+	@PatchMapping("/orders/reviews/{reviewId}")
 	public ResponseEntity<ResponseMessage<String>> updateReview(
 		@Valid @RequestBody ReviewUpdateRequestDto dto,
 		@PathVariable Long reviewId,
@@ -71,7 +72,7 @@ public class ReviewController {
 	}
 
 	// 리뷰 삭제
-	@DeleteMapping("/reviews/{reviewId}")
+	@DeleteMapping("/orders/reviews/{reviewId}")
 	public ResponseEntity<ResponseMessage<String>> deleteReview(
 		@Valid @RequestBody ReviewDeleteRequestDto dto,
 		@PathVariable Long reviewId,
@@ -106,22 +107,32 @@ public class ReviewController {
 		return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 	}
 
-	// 상점 리뷰 조회
+	// 상점 리뷰 전체 조회 + 별점 범위 조회
 	@GetMapping("/stores/{storeId}/reviews")
-	public ResponseEntity<ResponseMessage<List<ReviewResponseDto>>> findAllReviewsByStoreId(
+	public ResponseEntity<ResponseMessage<List<ReviewResponseDto>>> findReviewsByStore(
 		@PathVariable Long storeId,
+		@RequestParam(required = false) Integer minRating,
+		@RequestParam(required = false) Integer maxRating,
 		@LoginUser User loginUser
 	) {
-		List<ReviewResponseDto> responseDtoList = reviewService.findAllReviewsByStoreId(storeId, loginUser.getId());
+		List<ReviewResponseDto> responseDtoList;
+		String message;
+
+		if (minRating != null && maxRating != null) {
+			responseDtoList = reviewService.findReviewsByStoreAndRating(storeId, minRating, maxRating, loginUser.getId());
+			message = "상점 리뷰를 별점 범위로 조회하는 데 성공했습니다.";
+		} else {
+			responseDtoList = reviewService.findAllReviewsByStoreId(storeId, loginUser.getId());
+			message = "상점 리뷰 전체 조회에 성공했습니다.";
+		}
 
 		ResponseMessage<List<ReviewResponseDto>> responseMessage = ResponseMessage.<List<ReviewResponseDto>>builder()
 			.statusCode(HttpStatus.OK.value())
-			.message("리뷰 조회 성공")
+			.message(message)
 			.data(responseDtoList)
 			.build();
 
 		return ResponseEntity.ok(responseMessage);
 	}
-
 
 }

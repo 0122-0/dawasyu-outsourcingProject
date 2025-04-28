@@ -47,8 +47,7 @@ public class Menu extends BaseEntity {
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderMenu> orderMenus = new ArrayList<>();
 
-    @Column(nullable = false)
-    private boolean isDeleted = false; // 논리 삭제
+
 
     //메뉴 생성 부분
     public Menu(String name, String description, Long price, MenuStatus menuStatus, Store store) {
@@ -67,8 +66,9 @@ public class Menu extends BaseEntity {
         this.menuStatus = menuStatus;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setDeleted() {
+        this.menuStatus = MenuStatus.DELETED;
     }
+
 
 }

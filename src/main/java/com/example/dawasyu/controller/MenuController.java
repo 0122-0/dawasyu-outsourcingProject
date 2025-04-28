@@ -56,6 +56,7 @@ public class MenuController {
             @PathVariable Long storeId,
             @PathVariable Long menuId
     ){
+
         menuService.deleteMenu(storeId, menuId);
 
         return ResponseEntity.noContent().build();

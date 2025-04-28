@@ -1,10 +1,13 @@
 package com.example.dawasyu.domain.user.service;
 
+import com.example.dawasyu.common.error.ErrorCode;
 import com.example.dawasyu.common.jwt.JwtProvider;
+import com.example.dawasyu.domain.user.dto.request.UserUpdateAddressRequestDto;
 import com.example.dawasyu.domain.user.dto.response.SignUpResponseDto;
 import com.example.dawasyu.domain.user.dto.response.UserResponseDto;
 import com.example.dawasyu.domain.user.entity.User;
 import com.example.dawasyu.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,17 +38,18 @@ public class UserService {
 
         Optional<User> optionalUser = userRepository.findByEmail(email);
 
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(password);
+
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             if (user.isDeleted()) {
-                throw new RuntimeException("해당 이메일은 탈퇴된 계정입니다. 재가입이 불가능합니다.");
+                user.reactivate(encodedPassword, name, number, nickname, roadAddress, detailAddress, userRole);
+                return new SignUpResponseDto(user.getId(), user.getEmail(), user.getNickName(), user.getCreatedAt());
             } else {
-                throw new RuntimeException("이미 존재하는 이메일입니다.");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorCode.EMAIL_DUPLICATION.getMessage());
             }
         }
-
-        // 비밀번호 암호화
-        String encodedPassword = passwordEncoder.encode(password);
 
         User user = new User(email, encodedPassword, name, number, nickname, roadAddress, detailAddress, userRole);
 
@@ -55,20 +59,19 @@ public class UserService {
     }
 
     // 회원 탈퇴
+    @Transactional
     public void deleteUser (String email, String password) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        User user = userRepository.findByEmailAndDeletedFalseOrElseThrow(email);
 
         if(user.isDeleted()) {
-            throw new RuntimeException("이미 탈퇴한 사용자입니다.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorCode.EMAIL_DUPLICATION.getMessage());
         }
 
         if(!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorCode.PASSWORD_NOT_MATCHED.getMessage());
         }
 
-        user.withdraw();
-
-        userRepository.save(user);
+        user.softDelete(); // 소프트 딜리티드
     }
 
     // 내 프로필 조회
@@ -95,5 +98,15 @@ public class UserService {
         findUser.updatePassword(encodedPassword);
     }
 
+    // 주소 변경
+    @Transactional
+    public UserResponseDto updateAddress (Long userId, UserUpdateAddressRequestDto requestDto) {
+        User findUser = userRepository.findUserByIdOrElseThrow(userId);
+
+        findUser.updateAddress(requestDto.getRoadAddress(), requestDto.getDetailAddress());
+        return new UserResponseDto(findUser.getEmail(), findUser.getName(), findUser.getNumber(), findUser.getNickName(), findUser.getRoadAddress(), findUser.getDetailAddress(), findUser.getUserRole());
+    }
+
+    //
 
 }

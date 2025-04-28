@@ -16,12 +16,9 @@ public enum ErrorCode {
 
     // User
     EMAIL_DUPLICATION(400, "Bad Request", "U001", "Email is Duplicated"),
-    NICKNAME_DUPLICATION(400, "Bad Request", "U002", "NickName is Duplicated"),
-    USER_NOT_FOUND(404, "Not Found", "U003", "User Not Found"),
-    EMPTY_EMAIL_OR_NICKNAME(400, "Bad Request", "U004", "Email or Nickname is Empty"),
-    PASSWORD_NOT_MATCHED(400, "Bad Request", "U005", "Password do not match"),
-    SAME_NICKNAME(400, "Bad Request", "U006", "Cannot update to the same nickname."),
-    UNAUTHORIZED_USER(401, "Unauthorized", "U007", "Login is required."),
+    USER_NOT_FOUND(404, "Not Found", "U002", "User Not Found"),
+    PASSWORD_NOT_MATCHED(400, "Bad Request", "U003", "Password Do Not Match"),
+    UNAUTHORIZED_USER(401, "Unauthorized", "U004", "Unauthorized User"),
 
     // Store
     STORE_NOT_FOUND(404,"Not Found","S001","Can Not Found Store"),

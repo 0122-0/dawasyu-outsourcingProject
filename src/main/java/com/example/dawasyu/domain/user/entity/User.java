@@ -62,7 +62,6 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
-    @Setter
     @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private boolean deleted = false;  // 삭제 상태
 
@@ -77,17 +76,24 @@ public class User extends BaseEntity {
         this.userRole = UserRole.valueOf(userRole);
     }
 
+    public void reactivate(String password, String name, String number, String nickname, String roadAddress, String detailAddress, String userRole) {
+        this.password = password;
+        this.name = name;
+        this.number = number;
+        this.nickName = nickname;
+        this.roadAddress = roadAddress;
+        this.detailAddress = detailAddress;
+        this.userRole = UserRole.valueOf(userRole);
+        this.deleted = false;
+    }
+
     public void updatePassword(String password) { this.password = password; }
 
-    public void withdraw() {
-        this.deleted = true;
-        this.password = null;
-        this.name = null;
-        this.number = null;
-        this.nickName = "deleted_" + UUID.randomUUID().toString().substring(0, 8);
-        this.roadAddress = null;
-        this.detailAddress = null;
-        this.userRole = null;
+    public void updateAddress(String roadAddress, String detailAddress) {
+        this.roadAddress = roadAddress;
+        this.detailAddress = detailAddress;
     }
+
+    public void softDelete() { this.deleted = true; }
 
 }

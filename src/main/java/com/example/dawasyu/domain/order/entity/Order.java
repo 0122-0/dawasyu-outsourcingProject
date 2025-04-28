@@ -4,6 +4,8 @@ import com.example.dawasyu.common.baseEntity.BaseEntity;
 import com.example.dawasyu.domain.orderMenu.entity.OrderMenu;
 import com.example.dawasyu.domain.user.entity.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +17,8 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Order extends BaseEntity {
 
     //임의의 주문ID

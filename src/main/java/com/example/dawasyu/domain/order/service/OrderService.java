@@ -1,6 +1,8 @@
 package com.example.dawasyu.domain.order.service;
 
 
+import com.example.dawasyu.common.error.CustomException;
+import com.example.dawasyu.common.error.ErrorCode;
 import com.example.dawasyu.domain.menu.entity.Menu;
 import com.example.dawasyu.domain.order.dto.request.CreatedOrderRequestDto;
 import com.example.dawasyu.domain.order.dto.response.CreatedOrderResponseDto;
@@ -10,17 +12,18 @@ import com.example.dawasyu.domain.order.dto.response.OrderStatusResponseDto;
 import com.example.dawasyu.domain.order.entity.Order;
 import com.example.dawasyu.domain.order.entity.OrderStatus;
 import com.example.dawasyu.domain.orderMenu.entity.OrderMenu;
+import com.example.dawasyu.domain.store.entity.Store;
 import com.example.dawasyu.domain.user.entity.User;
 import com.example.dawasyu.repository.MenuRepository;
 import com.example.dawasyu.repository.OrderRepository;
+import com.example.dawasyu.repository.StoreRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-
-
 
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import java.util.List;
@@ -29,14 +32,40 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final StoreRepository storeRepository;
     private final MenuRepository menuRepository;
 
     @Transactional
-    public CreatedOrderResponseDto createOrder (CreatedOrderRequestDto requestDto, User loginUser) {
+    public CreatedOrderResponseDto createOrder (CreatedOrderRequestDto requestDto,Long storeId, User loginUser) {
+
+        Store store = storeRepository.findStoreByIdOrElseThrow(storeId);
+        LocalTime now = LocalTime.now(); // 현재 시각 (시간, 분까지만)
+        LocalTime openTime = store.getOpenTime(); // 가게 오픈 시간
+        LocalTime closeTime = store.getCloseTime(); // 가게 마감 시간
+
+        boolean isOpen;
+
+        if (store.getDeletedAt() != null) {
+            throw new CustomException(ErrorCode.STORE_NOT_FOUND);
+        }
+
+        if (openTime.isBefore(closeTime)) {
+            // 같은 날 오픈, 같은 날 마감 (ex: 09:00 ~ 22:00)
+            isOpen = !now.isBefore(openTime) && !now.isAfter(closeTime);
+        } else {
+            // 자정 넘어가는 경우 (ex: 23:00 ~ 12:00)
+            isOpen = !now.isBefore(openTime) || !now.isAfter(closeTime);
+        }
+
+        if (!isOpen) {
+            throw new RuntimeException("지금은 주문하실 수 없습니다. (운영시간: " + openTime + " ~ " + closeTime + ")");
+        }
+
+        // 주문할수 없는 메뉴 if ()
+
 
         Long totalPrice = requestDto.getMenus().stream()
             .mapToLong(menuDto -> {
@@ -68,7 +97,9 @@ public class OrderService {
         return "DWS" + timePart + "-" + randomPart;
     }
 
-    public OrderResponseDto findOrderById (Long orderId){
+    public OrderResponseDto findOrderById (Long storeId, Long orderId){
+
+        Store store = storeRepository.findStoreByIdOrElseThrow(storeId);
 
         Order findOrderById = orderRepository.findOrderById(orderId);
 
@@ -85,15 +116,17 @@ public class OrderService {
 
 
     @Transactional
-    public OrderStatusResponseDto changedStatus (Long orderId,OrderStatus oldOrderStatus, OrderStatus newOrderStatus){
+    public OrderStatusResponseDto changedStatus (Long storeId, Long orderId,OrderStatus oldOrderStatus, OrderStatus newOrderStatus){
 
-        Order findOrderById = orderRepository.findOrderById(orderId);
+        Store store = storeRepository.findStoreByIdOrElseThrow(storeId);
+
+        Order findOrderById = orderRepository.findOrderByIdOrElseThrow(orderId);
         if(!findOrderById.getOrderStatus().equals(oldOrderStatus)){
             throw new RuntimeException("상태값이 서로 다릅니다. ");
         }
         findOrderById.updateStatus(newOrderStatus);
 
-        return new OrderStatusResponseDto(findOrderById.getOrderStatus());
+        return new OrderStatusResponseDto(findOrderById);
     }
 
 }

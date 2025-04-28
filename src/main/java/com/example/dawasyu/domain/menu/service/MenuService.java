@@ -39,6 +39,7 @@ public class MenuService {
     }
 
 
+
     public void updateMenu(Long storeId, Long menuId,UpdateMenuRequest request) {
         Store store = StoreNotFound(storeId);
         Menu menu = MenuNotFound(menuId);
@@ -53,7 +54,14 @@ public class MenuService {
                 .map(MenuResponse::from)
                 .toList();
 
-
+//        List<Menu> menuList = menuRepository.findAll();
+//        List<MenuResponse> responseList = new ArrayList<>();
+//
+//        for (Menu menu : menuList) {
+//            responseList.add(new MenuResponse(menu.getId(), menu.getName(), menu.getPrice()));
+//        }
+//
+//        return responseList;
 
 
 
@@ -64,7 +72,7 @@ public class MenuService {
         Store store = StoreNotFound(storeId);
         Menu menu = MenuNotFound(menuId);
         menu.setDeleted(true);
-      menuRepository.save(menu);
+        menuRepository.save(menu);
 
     }
 //    메뉴 딜리티드일때 주문불가능하게 메뉴 목록 조회할때 딜리티드이면 못보게

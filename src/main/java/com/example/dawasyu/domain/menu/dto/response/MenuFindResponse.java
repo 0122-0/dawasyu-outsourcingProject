@@ -17,6 +17,8 @@ public class MenuFindResponse {
 
     private String description;
 
+
+
     public static MenuFindResponse from(Menu menu){
         return new MenuFindResponse(
                 menu.getId(),

@@ -1,7 +1,5 @@
 package com.example.dawasyu.domain.review.dto.request;
 
-import java.time.LocalTime;
-
 import com.example.dawasyu.domain.menu.entity.Menu;
 import com.example.dawasyu.domain.order.entity.Order;
 import com.example.dawasyu.domain.review.entity.Review;

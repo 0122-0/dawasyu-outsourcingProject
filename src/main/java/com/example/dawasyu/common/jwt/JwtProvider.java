@@ -133,7 +133,4 @@ public class JwtProvider {
         Claims claims = parseClaims(token);
         return claims.getExpiration().getTime() - new Date().getTime();
     }
-
-
-
 }

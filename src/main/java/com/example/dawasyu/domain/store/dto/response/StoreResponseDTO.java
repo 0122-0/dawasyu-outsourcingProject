@@ -27,7 +27,6 @@ public class StoreResponseDTO {
     private List<CategoryResponseDTO> categories;
     private List<MenuFindResponse> menus;
 
-
     public static StoreResponseDTO toSave(Store store) {
         return StoreResponseDTO.builder()
                 .id(store.getId())

@@ -2,7 +2,6 @@ package com.example.dawasyu.common.config;
 
 import com.example.dawasyu.common.jwt.JwtAuthenticationFilter;
 import com.example.dawasyu.common.jwt.JwtProvider;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -83,5 +82,4 @@ public class SecurityConfig {
                 writer.write("{\"error\": \"Forbidden: 접근 권한이 없습니다.\"}");
                 writer.flush();
             };
-
 }

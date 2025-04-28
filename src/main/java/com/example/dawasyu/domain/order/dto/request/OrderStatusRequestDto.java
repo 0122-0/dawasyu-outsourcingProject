@@ -14,6 +14,4 @@ public class OrderStatusRequestDto {
         this.oldOrderStatus = oldOrderStatus;
         this.newOrderStatus = newOrderStatus;
     }
-
-
 }

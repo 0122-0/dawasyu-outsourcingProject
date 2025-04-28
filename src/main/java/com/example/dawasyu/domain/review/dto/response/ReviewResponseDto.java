@@ -3,14 +3,9 @@ package com.example.dawasyu.domain.review.dto.response;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.w3c.dom.stylesheets.LinkStyle;
-
-import com.example.dawasyu.domain.menu.entity.Menu;
-import com.example.dawasyu.domain.order.entity.Order;
 import com.example.dawasyu.domain.orderMenu.dto.response.OrderMenuResponseDto;
 import com.example.dawasyu.domain.review.entity.Review;
 import com.example.dawasyu.domain.store.dto.response.StoreResponseDTO;
-import com.example.dawasyu.domain.store.entity.Store;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

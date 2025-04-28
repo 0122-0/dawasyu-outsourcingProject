@@ -4,7 +4,6 @@ import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import com.example.dawasyu.common.error.CustomException;
 import com.example.dawasyu.common.error.ErrorCode;

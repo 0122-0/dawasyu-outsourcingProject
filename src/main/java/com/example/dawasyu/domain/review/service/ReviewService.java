@@ -125,4 +125,18 @@ public class ReviewService {
 			.map(review -> ReviewResponseDto.toDto(review))
 			.collect(Collectors.toList());
 	}
+
+	@Transactional(readOnly = true)
+	public List<ReviewResponseDto> findReviewsByStoreAndRating(Long storeId, int minRating, int maxRating, Long id) {
+
+		// 1. 가게 존재 여부 확인
+		Store store = storeRepository.findStoreByIdOrElseThrow(storeId);
+
+		// 2. 해당 가게에 작성된 리뷰 리스트 조회 (최신순 정렬)
+		List<Review> reviews = reviewRepository.findByStoreIdAndRatingBetweenOrderByCreatedAtDesc(storeId, minRating, maxRating);
+		// 3. 엔티티 → DTO 변환
+		return reviews.stream()
+			.map(ReviewResponseDto::toDto)
+			.collect(Collectors.toList());
+	}
 }

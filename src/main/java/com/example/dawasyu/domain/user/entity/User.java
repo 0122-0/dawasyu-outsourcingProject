@@ -6,6 +6,7 @@ import com.example.dawasyu.domain.review.entity.Review;
 import com.example.dawasyu.domain.store.entity.Store;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Table(name = "user")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User extends BaseEntity {
 
     @Id
@@ -97,3 +99,5 @@ public class User extends BaseEntity {
     public void softDelete() { this.deleted = true; }
 
 }
+
+

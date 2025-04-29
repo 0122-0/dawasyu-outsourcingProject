@@ -38,10 +38,14 @@ public class MenuService {
         menuRepository.save(menu);
     }
 
+    @Transactional
     public void updateMenu(Long storeId, Long menuId,UpdateMenuRequest request) {
         Store store = StoreNotFound(storeId);
         Menu menu = MenuNotFound(menuId);
-        menu.update(request.getName(),request.getDescription(),request.getPrice(),request.getMenuStatus());
+
+            // 다른 상태로 변경할 때는 기존의 update 메서드 사용
+            menu.update(request.getName(), request.getDescription(), request.getPrice(), request.getMenuStatus());
+
     }
 
     public List<MenuResponse> findAll(Long storeId) {

@@ -66,8 +66,7 @@ public class OrderService {
 
         Long totalPrice = requestDto.getMenus().stream()
             .mapToLong(menuDto -> {
-                Menu menu = menuRepository.findById(menuDto.getMenuId())
-                    .orElseThrow(() -> new IllegalArgumentException("메뉴를 찾을 수 없습니다: " + menuDto.getMenuId()));
+                Menu menu = menuRepository.findMenuByIdOrElseThrow(menuDto.getMenuId());
                 return menu.getPrice() * menuDto.getQuantity();
             })
             .sum();
@@ -76,7 +75,7 @@ public class OrderService {
             Menu menu = menuRepository.findMenuByIdOrElseThrow(menuDto.getMenuId());
             // OrderMenu 객체를 생성하고, 수량 설정
             if(menu.getMenuStatus() == MenuStatus.DELETED) {
-                throw new RuntimeException("주문하실수 없는 메뉴가 있습니다.");
+                throw new CustomException(ErrorCode.MENU_ALREADY_DELETED);
             }
             return new OrderMenu(menu, menuDto.getQuantity());
         }).collect(Collectors.toList());
@@ -119,7 +118,7 @@ public class OrderService {
 
         Order findOrderById = orderRepository.findOrderByIdOrElseThrow(orderId);
         if(!findOrderById.getOrderStatus().equals(oldOrderStatus)){
-            throw new RuntimeException("상태값이 서로 다릅니다. ");
+            throw new CustomException(ErrorCode.DIFFERENT_STATUS);
         }
         findOrderById.updateStatus(newOrderStatus);
 

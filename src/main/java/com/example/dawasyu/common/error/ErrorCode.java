@@ -33,7 +33,7 @@ public enum ErrorCode {
 
     // Order
     ORDER_NOT_FOUND(404,"Not Found","O001","Can Not Found Order"),
-
+    DIFFERENT_STATUS(400, "Bad Request", "O002", "Order status does not match"),
     // Review
     REVIEW_NOT_FOUND(404,"Not Found","R001","Can Not Found Review"),
     NOT_ORDER_OWNER(400, "Bad Request", "R002", "You are not the owner of this order."),

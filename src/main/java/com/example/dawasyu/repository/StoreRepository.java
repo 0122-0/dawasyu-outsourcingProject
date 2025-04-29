@@ -35,4 +35,10 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
 	List<Store> findByNameContainingAndDeletedAtIsNull(String name);
 
+	boolean existsByName(String name);
+
+	boolean existsByNumber(String number);
+
+	boolean existsByBizNo(String bizNo);
+
 }

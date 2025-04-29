@@ -10,10 +10,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -35,5 +34,19 @@ public class CategoryController {
                 .build();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage);
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseMessage<List<CategoryResponseDTO>>> getAllCategories() {
+
+        List<CategoryResponseDTO> resDTOList = categoryService.getAllCategories();
+
+        ResponseMessage<List<CategoryResponseDTO>> responseMessage = ResponseMessage.<List<CategoryResponseDTO>>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("전체 카테고리 목록 조회가 완료되었습니다.")
+                .data(resDTOList)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
     }
 }

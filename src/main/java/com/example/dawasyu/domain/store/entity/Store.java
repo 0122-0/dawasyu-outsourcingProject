@@ -65,5 +65,4 @@ public class Store extends BaseEntity {
     public void closeStore() {
         this.deletedAt = LocalDateTime.now();
     }
-
 }

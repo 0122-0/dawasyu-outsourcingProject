@@ -2,7 +2,6 @@ package com.example.dawasyu.common.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
@@ -25,7 +24,11 @@ public enum ErrorCode {
     STORE_NOT_FOUND(404,"Not Found","S001","Can Not Found Store"),
     ALREADY_CLOSED_STORE(400, "Bad Request", "S002", "Already Closed Store"),
     NO_AUTHORIZATION(403, "Forbidden", "S003", "No Authorization for This Store"),
-    STORE_LIMIT_MAX(404,"Not Found","S001","Only 3 stores are allowed per account."),
+    STORE_LIMIT_MAX(404,"Not Found","S004","Only 3 stores are allowed per account."),
+    DUPLICATE_STORE_NAME(409, "Conflict", "S005", "Store name already exists."),
+    DUPLICATE_STORE_NUMBER(409, "Conflict", "S006", "Store phone number already exists."),
+    DUPLICATE_STORE_BIZNO(409, "Conflict", "S007", "Business number already exists."),
+    STORE_CREATE_CATEGORY_NOT_FOUND(400, "Bad Request", "S008", "At least one category is required to create a store."),
 
     // Menu
     MENU_NOT_FOUND(404,"Not Found","M001","Can Not Found Menu"),
@@ -39,13 +42,16 @@ public enum ErrorCode {
     NOT_ORDER_OWNER(400, "Bad Request", "R002", "You are not the owner of this order."),
     ALREADY_REVIEWED(400, "Bad Request", "R003", "A review has already been written for this order."),
     USER_NOT_MATCHED(400, "Bad Request", "R004", "The user is not authorized to modify this review"),
-    ORDER_NOT_COMPLETED(400, "Bad Request", "R005", "The order has not been completed yet and cannot be reviewed.");
-
+    ORDER_NOT_COMPLETED(400, "Bad Request", "R005", "The order has not been completed yet and cannot be reviewed."),
 
     // Category
+    CATEGORY_NOT_FOUND(404, "Not Found", "C001", "Category not found."),
+    DUPLICATE_CATEGORY_NAME(409, "Conflict", "C002", "Category name already exists.");
+
     private final int status;
     private final String error;
     private final String code;
     private final String message;
+
 
 }

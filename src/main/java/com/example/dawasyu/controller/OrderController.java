@@ -8,12 +8,9 @@ import com.example.dawasyu.domain.order.dto.request.OrderStatusRequestDto;
 import com.example.dawasyu.domain.order.dto.response.CreatedOrderResponseDto;
 import com.example.dawasyu.domain.order.dto.response.OrderResponseDto;
 import com.example.dawasyu.domain.order.dto.response.OrderStatusResponseDto;
-import com.example.dawasyu.domain.order.entity.OrderStatus;
 import com.example.dawasyu.domain.order.service.OrderService;
-import com.example.dawasyu.domain.review.dto.response.ReviewResponseDto;
 import com.example.dawasyu.domain.user.entity.User;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.http.HttpStatus;
@@ -46,7 +43,7 @@ public class OrderController {
     @GetMapping("/stores/{storeId}/orders/{orderId}")
     public ResponseEntity<ResponseMessage<OrderResponseDto>> findOrderById (@PathVariable Long storeId,@PathVariable Long orderId, @LoginUser User loginUser)
     {
-       OrderResponseDto findedById = orderService.findOrderById(storeId,orderId);
+        OrderResponseDto findedById = orderService.findOrderById(storeId,orderId);
 
         ResponseMessage<OrderResponseDto> responseMessage = ResponseMessage.<OrderResponseDto>builder()
                 .statusCode(HttpStatus.OK.value())

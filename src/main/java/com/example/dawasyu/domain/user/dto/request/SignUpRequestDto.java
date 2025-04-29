@@ -1,9 +1,7 @@
 package com.example.dawasyu.domain.user.dto.request;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
@@ -35,7 +33,6 @@ public class SignUpRequestDto {
 
     @NotBlank(message = "유저 유형은 필수 입력 값입니다.")
     private final String userRole;
-
 
     public SignUpRequestDto(String email, String password, String name, String number, String nickname, String roadAddress, String detailAddress, String userRole) {
         this.email = email;

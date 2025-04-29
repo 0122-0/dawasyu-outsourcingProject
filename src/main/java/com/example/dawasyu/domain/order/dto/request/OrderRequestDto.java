@@ -9,5 +9,4 @@ public class OrderRequestDto {
 
     private Long menuId;
     private int quantity;
-
 }

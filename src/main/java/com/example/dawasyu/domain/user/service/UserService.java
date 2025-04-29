@@ -1,7 +1,6 @@
 package com.example.dawasyu.domain.user.service;
 
 import com.example.dawasyu.common.error.ErrorCode;
-import com.example.dawasyu.common.jwt.JwtProvider;
 import com.example.dawasyu.domain.user.dto.request.UserUpdateAddressRequestDto;
 import com.example.dawasyu.domain.user.dto.response.SignUpResponseDto;
 import com.example.dawasyu.domain.user.dto.response.UserResponseDto;
@@ -106,7 +105,4 @@ public class UserService {
         findUser.updateAddress(requestDto.getRoadAddress(), requestDto.getDetailAddress());
         return new UserResponseDto(findUser.getEmail(), findUser.getName(), findUser.getNumber(), findUser.getNickName(), findUser.getRoadAddress(), findUser.getDetailAddress(), findUser.getUserRole());
     }
-
-    //
-
 }

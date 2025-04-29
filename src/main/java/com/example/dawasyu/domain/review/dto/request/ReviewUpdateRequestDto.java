@@ -1,10 +1,6 @@
 package com.example.dawasyu.domain.review.dto.request;
 
-import com.example.dawasyu.domain.menu.entity.Menu;
-import com.example.dawasyu.domain.order.entity.Order;
 import com.example.dawasyu.domain.review.entity.Review;
-import com.example.dawasyu.domain.store.entity.Store;
-import com.example.dawasyu.domain.user.entity.User;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

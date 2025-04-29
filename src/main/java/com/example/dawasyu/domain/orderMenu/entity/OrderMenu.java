@@ -34,7 +34,4 @@ public class OrderMenu {
 //        this.order = order;
         this.quantity = quantity;
     }
-
-
-
 }

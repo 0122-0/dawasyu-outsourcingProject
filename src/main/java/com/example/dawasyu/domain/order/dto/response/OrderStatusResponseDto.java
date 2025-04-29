@@ -1,6 +1,8 @@
 package com.example.dawasyu.domain.order.dto.response;
 
 
+import com.example.dawasyu.common.error.CustomException;
+import com.example.dawasyu.common.error.ErrorCode;
 import com.example.dawasyu.domain.order.entity.Order;
 import com.example.dawasyu.domain.order.entity.OrderStatus;
 import lombok.Getter;
@@ -25,6 +27,6 @@ public class OrderStatusResponseDto {
         this.storeId = order.getOrderMenus().stream()
                 .map(orderMenu -> orderMenu.getMenu().getStore().getId())
                 .findFirst()
-                .orElseThrow(()-> new RuntimeException("가게를 찾을수 없습니다."));
+                .orElseThrow(()-> new CustomException(ErrorCode.STORE_NOT_FOUND));
     }
 }
